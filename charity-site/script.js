@@ -1,15 +1,27 @@
 /* Mobile menu */
 (function () {
   const hamburger = document.querySelector(".hamburger");
-  const navLinks = document.querySelector(".nav-links");
-  if (hamburger && navLinks) {
+  const navbar = document.querySelector(".navbar");
+  if (hamburger && navbar) {
     hamburger.addEventListener("click", function () {
-      navLinks.classList.toggle("open");
+      navbar.classList.toggle("menu-open");
     });
-    navLinks.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () { navLinks.classList.remove("open"); });
+    navbar.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { navbar.classList.remove("menu-open"); });
     });
   }
+})();
+
+/* White nav on scroll */
+(function () {
+  const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
+  function onScroll() {
+    if (window.scrollY > 40) { navbar.classList.add("scrolled"); }
+    else { navbar.classList.remove("scrolled"); }
+  }
+  window.addEventListener("scroll", onScroll);
+  onScroll();
 })();
 
 /* Animated counters */
