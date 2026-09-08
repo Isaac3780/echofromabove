@@ -72,6 +72,64 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .btn-white:hover { background: var(--cream); }
 .btn-ghost { border-color: #fff; color: #fff; }
 .btn-ghost:hover { background: #fff; color: var(--navy); }
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: #e89a12; }
+.btn-block { display: block; width: 100%; text-align: center; }
+
+/* ---------- Page hero (interior pages) ---------- */
+.page-hero {
+  position: relative; min-height: 46vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; color: #fff; padding: 130px 22px 70px;
+  background-size: cover; background-position: center 30%; background-repeat: no-repeat;
+}
+.page-hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16,40,52,0.70), rgba(16,40,52,0.52)); }
+.page-hero .wrap { position: relative; z-index: 1; }
+.page-hero .kicker { color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 12px; }
+.page-hero h1 { font-size: 2.9rem; color: #fff; margin-bottom: 14px; }
+.page-hero p { font-size: 1.08rem; color: rgba(255,255,255,0.92); max-width: 640px; margin: 0 auto; }
+
+/* ---------- About page ---------- */
+.about-verse { text-align: center; max-width: 760px; margin: 0 auto 70px; }
+.about-verse p { font-family: var(--font-head); font-size: 1.45rem; color: var(--navy); font-weight: 700; line-height: 1.6; }
+.about-verse .ref { color: var(--gold); font-weight: 800; letter-spacing: 2px; margin-top: 16px; }
+.about-verse img { width: 100%; max-width: 640px; margin: 42px auto 0; border-radius: var(--radius); box-shadow: var(--shadow); height: 380px; object-fit: cover; }
+.statement { text-align: center; max-width: 860px; margin: 0 auto; }
+.statement .big { font-size: 1.28rem; color: var(--navy); font-weight: 600; line-height: 1.7; margin-bottom: 28px; }
+
+/* ---------- Block cards (explore / about pillars) ---------- */
+.block-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px; max-width: 1000px; margin: 0 auto;
+}
+.block-card {
+  background: var(--white); border-radius: var(--radius); padding: 34px 26px; text-align: center;
+  box-shadow: var(--shadow); transition: transform 0.25s, box-shadow 0.25s;
+}
+.block-card:hover { transform: translateY(-6px); box-shadow: 0 16px 42px rgba(22,50,79,0.14); }
+.block-card .icon { font-size: 2.3rem; margin-bottom: 14px; color: var(--green); }
+.block-card h4 { margin-bottom: 8px; }
+.block-card p { font-size: 0.92rem; }
+a.block-card { display: block; color: inherit; }
+
+/* ---------- Contact form ---------- */
+.contact-form {
+  max-width: 680px; margin: 0 auto; background: var(--white); border-radius: var(--radius);
+  padding: 40px 36px; box-shadow: var(--shadow);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-weight: 700; color: var(--navy); font-size: 0.88rem; margin-bottom: 7px; }
+.field input, .field textarea {
+  width: 100%; padding: 13px 15px; border: 1.5px solid #dfe8e6; border-radius: 10px;
+  font-family: inherit; font-size: 0.95rem; color: var(--navy); background: var(--cream); outline: none; transition: border-color 0.2s;
+}
+.field input:focus, .field textarea:focus { border-color: var(--green); background: #fff; }
+.field textarea { min-height: 140px; resize: vertical; }
+.contact-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px; max-width: 900px; margin: 50px auto 0; text-align: center; }
+.contact-info .ci { background: var(--white); border-radius: var(--radius); padding: 28px 22px; box-shadow: var(--shadow); }
+.contact-info .ci-icon { font-size: 1.9rem; margin-bottom: 10px; color: var(--gold); }
+.contact-info h4 { margin-bottom: 6px; }
+.contact-info p { font-size: 0.92rem; }
+.contact-info a { color: var(--green); font-weight: 700; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -109,8 +167,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .cause-card:hover { transform: translateY(-6px); }
 .cause-icon {
   width: 70px; height: 70px; border-radius: 22px; margin: 0 auto 18px;
-  display: flex; align-items: center; justify-content: center; font-size: 2rem;
+  display: flex; align-items: center; justify-content: center; font-size: 2rem; overflow: hidden;
 }
+.cause-icon .ph { width: 100%; height: 100%; object-fit: cover; }
 .cause-card h4 { margin-bottom: 8px; font-size: 1.1rem; }
 .cause-card p { font-size: 0.9rem; margin-bottom: 14px; }
 .cause-card a { color: var(--green); font-weight: 700; font-size: 0.9rem; }
@@ -185,6 +244,35 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .verse-band blockquote { font-family: var(--font-head); font-size: 1.6rem; max-width: 820px; margin: 0 auto; line-height: 1.5; }
 .verse-band .ref { margin-top: 14px; font-weight: 800; letter-spacing: 2px; }
 
+/* ---------- Devotional flipbooks ---------- */
+.book-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; max-width: 1000px; margin: 0 auto;
+}
+.book-card {
+  background: var(--white); border-radius: var(--radius); padding: 26px 22px; text-align: center;
+  box-shadow: var(--shadow);
+}
+.book-card h4 { font-size: 1.2rem; margin-bottom: 6px; color: var(--navy); }
+.book-card p { font-size: 0.85rem; color: var(--text); margin-bottom: 18px; }
+.book-read { display: inline-block; padding: 11px 26px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; }
+
+/* ---------- Country galleries (mission) ---------- */
+.country-radio { display: none; }
+.country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto 10px; }
+.country-card {
+  background: var(--white); border-radius: var(--radius); padding: 22px; text-align: center;
+  box-shadow: var(--shadow); cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; display: block;
+}
+.country-card:hover { transform: translateY(-6px); box-shadow: 0 16px 42px rgba(22,50,79,0.14); }
+.country-card img { width: 100%; height: 170px; object-fit: contain; margin-bottom: 12px; }
+.country-card span { display: block; font-family: var(--font-head); font-weight: 800; color: var(--navy); font-size: 1.1rem; }
+.country-slide { display: none; margin-top: 26px; }
+#country-myanmar:checked ~ .myanmar,
+#country-cambodia:checked ~ .cambodia,
+#country-india:checked ~ .india { display: block; }
+.video-frame { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 900px; margin: 0 auto; background: #000; border-radius: var(--radius); box-shadow: var(--shadow); }
+.video-frame iframe, .video-frame video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: var(--radius); }
+
 /* ---------- Footer ---------- */
 footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22px 30px; font-size: 0.9rem; }
 .footer-grid {
@@ -217,11 +305,16 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
   .split { grid-template-columns: 1fr; }
   .causes-grid { grid-template-columns: repeat(2, 1fr); }
   .missions { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
   .hero h1 { font-size: 2.5rem; }
 }
 @media (max-width: 480px) {
   .causes-grid { grid-template-columns: 1fr; }
   .missions { grid-template-columns: 1fr; }
+  .book-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 2rem; }
   .section-title h2 { font-size: 1.8rem; }
+  .page-hero h1 { font-size: 2.2rem; }
+  .contact-form { padding: 30px 22px; }
+  .country-grid { grid-template-columns: 1fr; }
 }

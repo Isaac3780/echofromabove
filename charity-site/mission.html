@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Mission | Broad Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Karla:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="../logo.png" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="nav-socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20,10.1c0-5.5-4.5-10-10-10S0,4.5,0,10.1c0,5,3.7,9.1,8.4,9.9v-7H5.9v-2.9h2.5V7.9C8.4,5.4,9.9,4,12.2,4c1.1,0,2.2,0.2,2.2,0.2v2.5h-1.3c-1.2,0-1.6,0.8-1.6,1.6v1.9h2.8L13.9,13h-2.3v7C16.3,19.2,20,15.1,20,10.1z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.6,5.2c-0.2-0.9-0.8-1.6-1.7-1.8C16.3,3,10,3,10,3S3.7,3,2.1,3.4C1.2,3.6,0.6,4.3,0.4,5.2C0,6.8,0,10,0,10s0,3.2,0.4,4.8c0.2,0.9,0.8,1.6,1.7,1.8C3.7,17,10,17,10,17s6.3,0,7.9-0.4c0.9-0.2,1.5-0.9,1.7-1.8C20,13.2,20,10,20,10S20,6.8,19.6,5.2z M8,13.2V6.8l5.4,3.2L8,13.2z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.3"/><path fill="currentColor" d="M14.2,0H5.8C2.6,0,0,2.6,0,5.8v8.3C0,17.4,2.6,20,5.8,20h8.3c3.2,0,5.8-2.6,5.8-5.8V5.8C20,2.6,17.4,0,14.2,0zM10,15c-2.8,0-5-2.2-5-5s2.2-5,5-5s5,2.2,5,5S12.8,15,10,15z M15.8,5C15.4,5,15,4.6,15,4.2s0.4-0.8,0.8-0.8s0.8,0.4,0.8,0.8S16.3,5,15.8,5z"/></svg></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="mission.html">Mission</a></li>
+        </ul>
+      </div>
+
+      <a href="index.html" class="nav-brand"><img src="img/leaf.png" alt="Broad Vision logo" class="brand-leaf" /><span class="brand-name">Broad Vision</span></a>
+
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="devotion.html">Devotion</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener" class="btn btn-green nav-donate">Donate</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero" style="background-image: url('img/village-goals.jpeg');">
+    <div class="wrap">
+      <div class="kicker">Featured Missions</div>
+      <h1>Our Work in the Field</h1>
+      <p>Bringing hope and change to communities around the world.</p>
+    </div>
+  </header>
+
+  <!-- COUNTRY GALLERIES -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="kicker">Get Involved</div>
+        <h2>Choose a Country</h2>
+        <p>&ldquo;Is it not to share your food with the hungry and to provide the poor wanderer with shelter&hellip;&rdquo; &mdash; Isaiah 58:7</p>
+        <p style="font-style: italic; margin-top: 12px;">&#128071; Try clicking the flags</p>
+      </div>
+
+      <div class="country-grid">
+        <label for="country-myanmar" class="country-card">
+          <img src="img/flag-myanmar.jpg" alt="Myanmar" />
+          <span>Myanmar</span>
+        </label>
+        <label for="country-cambodia" class="country-card">
+          <img src="img/flag-cambodia.jpg" alt="Cambodia" />
+          <span>Cambodia</span>
+        </label>
+        <label for="country-india" class="country-card">
+          <img src="img/flag-india.jpg" alt="India" />
+          <span>India</span>
+        </label>
+      </div>
+
+      <input type="radio" name="country" id="country-myanmar" class="country-radio" />
+      <div class="country-slide myanmar">
+        <div class="video-frame">
+          <video src="img/slideshow-myanmar.mp4" poster="img/poster-myanmar.jpg" controls loop playsinline preload="none"></video>
+        </div>
+      </div>
+
+      <input type="radio" name="country" id="country-cambodia" class="country-radio" />
+      <div class="country-slide cambodia">
+        <div class="video-frame">
+          <video src="img/slideshow-cambodia.mp4" poster="img/poster-cambodia.jpg" controls loop playsinline preload="none"></video>
+        </div>
+      </div>
+
+      <input type="radio" name="country" id="country-india" class="country-radio" />
+      <div class="country-slide india">
+        <div class="video-frame">
+          <video src="img/slideshow-india.mp4" poster="img/poster-india.jpg" controls loop playsinline preload="none"></video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DONATE -->
+  <section class="section" style="background: var(--white);">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="kicker">Donate as Your Heart Leads</div>
+        <h2>Bring Hope to the Nations</h2>
+        <p>Join us in bringing hope to the nations. Choose to support our missions in India, Myanmar, Cambodia, or Thailand. All contributions are fully audited for transparency and managed under the rights of Broad Vision.</p>
+      </div>
+      <div style="text-align:center;">
+        <a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener" class="btn btn-green">Start Your Donation!</a>
+      </div>
+      <p style="text-align:center; margin-top: 18px; font-size: 0.9rem; color: var(--text);">&#128737;&#65039; <strong>Verified &amp; Audited by Broad Vision</strong></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>About Broad Vision</h4>
+        <p style="max-width:260px;">A welcoming church community passionate about faith, love, and service.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="mission.html">Our Mission</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="devotion.html">Devotional</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="https://linktr.ee/LivingTheVision" target="_blank" rel="noopener">Podcast &amp; Socials</a></li>
+          <li><a href="https://forms.gle/N2oJS45cPmEjyHrQ9" target="_blank" rel="noopener">Prayer Platform</a></li>
+          <li><a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener">Donate</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Info</h4>
+        <ul>
+          <li>Worldwide</li>
+          <li><a href="contact.html">Send a message</a></li>
+          <li><a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener">Donate Now</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Broad Vision. Created with care &middot; Isaiah 58:7
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var radios = document.querySelectorAll(".country-radio");
+      var timers = {};
+      function getTarget(id) {
+        return document.querySelector(".country-slide." + id.replace("country-", ""));
+      }
+      function pauseAll() {
+        document.querySelectorAll(".country-slide video").forEach(function (v) { v.pause(); });
+      }
+      radios.forEach(function (radio) {
+        radio.addEventListener("change", function () {
+          if (timers[this.id]) { clearTimeout(timers[this.id]); timers[this.id] = null; }
+          pauseAll();
+          if (!this.checked) return;
+          var slide = getTarget(this.id);
+          if (!slide) return;
+          var video = slide.querySelector("video");
+          video.currentTime = 0;
+          video.muted = true;
+          timers[this.id] = setTimeout(function () {
+            var p = video.play();
+            if (p) p.catch(function () {});
+          }, 5000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
