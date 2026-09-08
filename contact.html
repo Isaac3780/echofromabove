@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Broad Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="logo.png" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><img src="logo.png" alt="Broad Vision logo" /></a>
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="village.html">Village</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero hero-smallhero" style="background-image: url('palm leaf.jpg');">
+    <div class="hero-content">
+      <div class="hero-kicker">Contact Us</div>
+      <h1>Join Us!</h1>
+      <p>Everyone is welcome to worship and grow together with us.</p>
+    </div>
+  </header>
+
+  <!-- RSVP / JOIN FORM -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="section-kicker">Join Our Community</div>
+        <h2>Can You Make It?</h2>
+        <p>Everyone is welcome to worship and grow together with us!</p>
+      </div>
+
+      <form class="form" action="https://docs.google.com/forms/d/e/YOUR_FORM/edit" method="post" target="_blank">
+        <p style="font-size:0.85rem; color: var(--text-light); margin-bottom: 4px;">* Indicates required field</p>
+
+        <label for="attendance">Can you make it? *</label>
+        <select id="attendance" name="attendance" required>
+          <option value="">Please select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Maybe</option>
+        </select>
+
+        <label for="guests">No. of additional guests *</label>
+        <input type="number" id="guests" name="guests" min="0" required />
+
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="firstname">Name *</label>
+        <div class="form-row">
+          <input type="text" id="firstname" name="firstname" placeholder="First" required />
+          <input type="text" id="lastname" name="lastname" placeholder="Last" />
+        </div>
+
+        <button type="submit" class="btn btn-gold">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PRAYER PLATFORM -->
+  <section class="section section-alt">
+    <div class="wrap feature">
+      <img src="hands praying.jpg" alt="Prayer platform" />
+      <div>
+        <div class="section-kicker">Prayer Platform</div>
+        <h3>Connect &amp; Pray Alongside Us</h3>
+        <p>Come join us for our Monthly Prayer Zoom. We would love to connect and pray alongside with you!</p>
+        <p><strong>Details:</strong></p>
+        <ul style="margin-bottom: 18px; padding-left: 20px;">
+          <li>Every first week of the month, Wednesday</li>
+          <li>Time: 8:30pm â€“ 10:00pm</li>
+        </ul>
+        <p style="margin-bottom: 20px;">Click the button below to sign up!</p>
+        <a href="https://forms.gle/N2oJS45cPmEjyHrQ9" target="_blank" rel="noopener" class="btn btn-gold">Sign Up for Prayer Platform</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANY QUESTIONS -->
+  <section class="section">
+    <div class="wrap text-center">
+      <div class="section-title">
+        <div class="section-kicker">Any Questions?</div>
+        <h2>Get In Touch</h2>
+        <p>Prayer requests, testimonies, or anything else â€” we'd love to hear from you.</p>
+      </div>
+      <a href="more-info.html" class="btn btn-green">Prayer &amp; Testimonials</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>Broad Vision</h4>
+        <p style="max-width:260px;">A welcoming church community passionate about faith, love, and service.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="village.html">Village</a></li>
+          <li><a href="devotional.html">Devotional</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="https://linktr.ee/LivingTheVision" target="_blank" rel="noopener">Linktree &amp; Podcasts</a></li>
+          <li><a href="https://forms.gle/N2oJS45cPmEjyHrQ9" target="_blank" rel="noopener">Prayer Platform</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">Join Our Community</a></li>
+          <li><a href="more-info.html">Prayer &amp; Testimonials</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Broad Vision. Created with care. Isaiah 58:7
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
