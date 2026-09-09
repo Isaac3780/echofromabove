@@ -307,6 +307,7 @@ a.block-card { display: block; color: inherit; }
 .book-card h4 { font-size: 1.2rem; margin-bottom: 6px; color: var(--navy); }
 .book-card p { font-size: 0.85rem; color: var(--text); margin-bottom: 18px; }
 .book-read { display: inline-block; padding: 11px 26px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; }
+.book-read.is-disabled { background: #cdd6d8; color: #7e9296; cursor: not-allowed; }
 .char-icon { font-size: 2.4rem; margin-bottom: 12px; }
 
 /* ---------- 66-book character library ---------- */
@@ -571,4 +572,7 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
   .flipbook { padding: 30px 8px 52px; }
   .flip-toolbar { flex-wrap: wrap; gap: 10px; }
   .bookpage.cover h2, .bookpage.backcover h2 { font-size: 2.6rem; }
+  .bookpage .bp-body { padding: 8px 16px 6px; }
+  .bookpage .bp-head { padding: 8px 14px 6px; }
+  .bookpage .bp-foot { padding: 4px 16px 6px; }
 }
