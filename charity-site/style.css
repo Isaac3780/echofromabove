@@ -57,8 +57,14 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .navbar.scrolled .nav-socials { border-right-color: #e2e7e6; }
 .nav-socials a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: #fff; transition: 0.2s; }
 .navbar.scrolled .nav-socials a { color: var(--navy); }
-.nav-socials a:hover { background: rgba(255,255,255,0.15); color: #fff; }
-.navbar.scrolled .nav-socials a:hover { background: var(--cream); color: var(--green); }
+.nav-socials a:hover { background: rgba(255,255,255,0.15); }
+.navbar.scrolled .nav-socials a:hover { background: var(--cream); }
+.nav-socials a[aria-label="Instagram"] { color: #d62976; }
+.nav-socials a[aria-label="Facebook"] { color: #1877f2; }
+.nav-socials a[aria-label="YouTube"] { color: #ff0000; }
+.navbar.scrolled .nav-socials a[aria-label="Instagram"] { color: #d62976; }
+.navbar.scrolled .nav-socials a[aria-label="Facebook"] { color: #1877f2; }
+.navbar.scrolled .nav-socials a[aria-label="YouTube"] { color: #ff0000; }
 .nav-donate { padding: 11px 24px; font-size: 0.85rem; white-space: nowrap; }
 
 /* ---------- Buttons ---------- */
