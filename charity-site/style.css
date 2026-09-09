@@ -18,7 +18,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); color: var(--text); background: var(--cream); line-height: 1.7; }
+body { font-family: var(--font-body); color: var(--text); background: var(--cream); line-height: 1.7; overflow-x: hidden; }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height: 1.3; }
@@ -74,6 +74,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .btn-ghost:hover { background: #fff; color: var(--navy); }
 .btn-gold { background: var(--gold); color: var(--navy); }
 .btn-gold:hover { background: #e89a12; }
+.btn-cream { background: var(--cream); color: var(--navy); }
+.btn-cream:hover { background: #fff; }
+.btn-blue { background: #58a6e8; color: var(--navy); }
+.btn-blue:hover { background: #3d8fd1; }
 .btn-block { display: block; width: 100%; text-align: center; }
 
 /* ---------- Page hero (interior pages) ---------- */
@@ -95,6 +99,46 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .about-verse img { width: 100%; max-width: 640px; margin: 42px auto 0; border-radius: var(--radius); box-shadow: var(--shadow); height: 380px; object-fit: cover; }
 .statement { text-align: center; max-width: 860px; margin: 0 auto; }
 .statement .big { font-size: 1.28rem; color: var(--navy); font-weight: 600; line-height: 1.7; margin-bottom: 28px; }
+.about-img { width: 100%; max-width: 560px; height: 300px; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); margin: 28px auto; }
+.ab-icon-img { width: 100%; height: 150px; object-fit: cover; border-radius: 12px; margin-bottom: 14px; }
+
+/* ---------- JESUS letters ---------- */
+.jesus-row { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.flip-card { perspective: 1000px; width: 130px; height: 130px; cursor: pointer; }
+.flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.7s; transform-style: preserve-3d; }
+.flip-card:hover .flip-inner, .flip-card:focus .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute; inset: 0; border-radius: 16px; overflow: hidden;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  box-shadow: var(--shadow);
+}
+.flip-front img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.flip-back {
+  transform: rotateY(180deg); background: var(--navy); color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 12px; gap: 6px;
+}
+.flip-back strong { font-family: var(--font-head); color: var(--gold); font-size: 0.9rem; }
+.flip-back span { font-size: 0.75rem; line-height: 1.4; }
+
+/* ---------- Mission / Vision split ---------- */
+.mv-split {
+  position: relative; color: #fff;
+  min-height: 480px; background-color: var(--cream);
+}
+.mv-bg { position: absolute; inset: 0; display: flex; background-color: var(--cream); }
+.mv-bg-panel {
+  flex: 1 1 0; background-image: url("img/about-3men-inv.png");
+  background-size: 300% 100%; background-repeat: no-repeat;
+  filter: blur(12px); transform: scale(1.12);
+}
+.mv-bg::before { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.35); z-index: 1; }
+.mv-split .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 200px 0 70px; }
+.mv-col { text-align: center; }
+.mv-col .mv-head { font-family: var(--font-head); font-size: 2.3rem; color: var(--gold); font-weight: 800; margin-bottom: 16px; text-transform: none; }
+.mv-col .big { color: #fff; font-weight: 700; }
+.mv-col .section-title p { color: #fff; font-weight: 700; }
+.mv-col .kicker { color: var(--gold); font-weight: 800; }
 
 /* ---------- Block cards (explore / about pillars) ---------- */
 .block-grid {
@@ -165,6 +209,9 @@ a.block-card { display: block; color: inherit; }
   box-shadow: var(--shadow); transition: transform 0.25s;
 }
 .cause-card:hover { transform: translateY(-6px); }
+.cause-card.soon { filter: grayscale(1); opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+.cause-card.soon:hover { transform: none; }
+.cause-card.soon a { color: var(--text); pointer-events: none; }
 .cause-icon {
   width: 70px; height: 70px; border-radius: 22px; margin: 0 auto 18px;
   display: flex; align-items: center; justify-content: center; font-size: 2rem; overflow: hidden;
@@ -255,6 +302,45 @@ a.block-card { display: block; color: inherit; }
 .book-card h4 { font-size: 1.2rem; margin-bottom: 6px; color: var(--navy); }
 .book-card p { font-size: 0.85rem; color: var(--text); margin-bottom: 18px; }
 .book-read { display: inline-block; padding: 11px 26px; border-radius: 999px; font-weight: 700; font-size: 0.9rem; }
+.char-icon { font-size: 2.4rem; margin-bottom: 12px; }
+
+/* ---------- 66-book character library ---------- */
+.books-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.book-card3 {
+  background: var(--white); border-radius: 12px; box-shadow: var(--shadow);
+  border: 0; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
+}
+.book-card3:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(22,50,79,0.14); }
+.book-card3 summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  padding: 12px 12px; user-select: none;
+}
+.book-card3 summary::-webkit-details-marker { display: none; }
+.book-card3 summary .bi { font-size: 1.15rem; flex: 0 0 auto; }
+.book-card3 summary strong { font-family: var(--font-head); font-size: 0.92rem; color: var(--navy); flex: 1; white-space: nowrap; }
+.book-card3 summary em {
+  font-style: normal; font-size: 0.62rem; font-weight: 800; letter-spacing: 1px;
+  padding: 2px 6px; border-radius: 6px; background: var(--cream); color: var(--green);
+}
+.book-card3 summary .cnt {
+  font-size: 0.7rem; font-weight: 800; color: var(--text);
+  background: var(--cream); border-radius: 999px; min-width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center; padding: 0 5px;
+}
+.book-card3 summary .chev { font-size: 0.7rem; color: var(--green); transition: transform 0.2s; margin-left: auto; }
+.book-card3[open] summary .chev { transform: rotate(180deg); }
+.book-card3[open] { box-shadow: 0 0 0 2px var(--green), var(--shadow); }
+.char-list { list-style: none; border-top: 1px solid #eef3f1; padding: 4px 0 8px; }
+.char-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+}
+.char-item + .char-item { border-top: 1px dashed #e8efec; }
+.char-item .ci { font-size: 1rem; width: 22px; text-align: center; flex: 0 0 auto; }
+.char-item .ct { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; }
+.char-item .ct strong { font-family: var(--font-head); font-size: 0.82rem; color: var(--navy); line-height: 1.25; white-space: nowrap; }
+.char-item .ct small { font-size: 0.7rem; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.char-item .cr { font-size: 0.72rem; font-weight: 800; color: var(--green); white-space: nowrap; }
+.char-item .cr:hover { color: var(--green-dark); }
 
 /* ---------- Country galleries (mission) ---------- */
 .country-radio { display: none; }
@@ -301,20 +387,34 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
   }
   .nav-left .nav-links a, .nav-right .nav-links a { color: var(--navy); display: block; }
   .nav-socials { display: none; }
-  .nav-donate { order: 1; }
+  .nav-donate { order: 1; margin: 4px 0; width: 100%; text-align: center; }
   .split { grid-template-columns: 1fr; }
+  .mv-split .wrap { grid-template-columns: 1fr; gap: 40px; padding: 140px 0 60px; }
   .causes-grid { grid-template-columns: repeat(2, 1fr); }
   .missions { grid-template-columns: repeat(2, 1fr); }
+  .country-grid { grid-template-columns: repeat(2, 1fr); }
+  .books-grid { grid-template-columns: repeat(3, 1fr); }
   .form-row { grid-template-columns: 1fr; }
+  .hero { min-height: 76vh; padding: 110px 18px 60px; }
   .hero h1 { font-size: 2.5rem; }
+  .page-hero { padding-top: 120px; min-height: 40vh; }
+  .page-hero h1 { font-size: 2.4rem; }
+  .stats { background-attachment: scroll; }
+  .stats .wrap { grid-template-columns: repeat(2, 1fr); gap: 26px; }
+  .verse-band blockquote { font-size: 1.25rem; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
 }
 @media (max-width: 480px) {
   .causes-grid { grid-template-columns: 1fr; }
   .missions { grid-template-columns: 1fr; }
+  .country-grid { grid-template-columns: 1fr; }
+  .books-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .book-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 2rem; }
   .section-title h2 { font-size: 1.8rem; }
   .page-hero h1 { font-size: 2.2rem; }
+  .section { padding: 60px 18px; }
   .contact-form { padding: 30px 22px; }
-  .country-grid { grid-template-columns: 1fr; }
+  .stats .number { font-size: 2.4rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
 }

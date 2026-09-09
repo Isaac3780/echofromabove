@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bible Characters | Broad Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Karla:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="../logo.png" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="nav-socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20,10.1c0-5.5-4.5-10-10-10S0,4.5,0,10.1c0,5,3.7,9.1,8.4,9.9v-7H5.9v-2.9h2.5V7.9C8.4,5.4,9.9,4,12.2,4c1.1,0,2.2,0.2,2.2,0.2v2.5h-1.3c-1.2,0-1.6,0.8-1.6,1.6v1.9h2.8L13.9,13h-2.3v7C16.3,19.2,20,15.1,20,10.1z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.6,5.2c-0.2-0.9-0.8-1.6-1.7-1.8C16.3,3,10,3,10,3S3.7,3,2.1,3.4C1.2,3.6,0.6,4.3,0.4,5.2C0,6.8,0,10,0,10s0,3.2,0.4,4.8c0.2,0.9,0.8,1.6,1.7,1.8C3.7,17,10,17,10,17s6.3,0,7.9-0.4c0.9-0.2,1.5-0.9,1.7-1.8C20,13.2,20,10,20,10S20,6.8,19.6,5.2z M8,13.2V6.8l5.4,3.2L8,13.2z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="3.3"/><path fill="currentColor" d="M14.2,0H5.8C2.6,0,0,2.6,0,5.8v8.3C0,17.4,2.6,20,5.8,20h8.3c3.2,0,5.8-2.6,5.8-5.8V5.8C20,2.6,17.4,0,14.2,0zM10,15c-2.8,0-5-2.2-5-5s2.2-5,5-5s5,2.2,5,5S12.8,15,10,15z M15.8,5C15.4,5,15,4.6,15,4.2s0.4-0.8,0.8-0.8s0.8,0.4,0.8,0.8S16.3,5,15.8,5z"/></svg></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="mission.html">Mission</a></li>
+        </ul>
+      </div>
+
+      <a href="index.html" class="nav-brand"><img src="img/leaf.png" alt="Broad Vision logo" class="brand-leaf" /><span class="brand-name">Broad Vision</span></a>
+
+      <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="characters.html">Characters</a></li>
+          <li><a href="devotion.html">Devotion</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener" class="btn btn-green nav-donate">Donate</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero" style="background-image: url('img/hero.jpg');">
+    <div class="wrap">
+      <div class="kicker">The People of Scripture</div>
+      <h1>Bible Characters</h1>
+      <p>A growing library of the men, women, and witnesses who shaped the story of God — organized book by book.</p>
+    </div>
+  </header>
+
+  <!-- CHARACTER LIBRARY -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="kicker">Character Library</div>
+        <h2>All 66 Books of the Bible</h2>
+        <p>Tap a book to see its characters. New write-ups are added as each character is shared.</p>
+      </div>
+
+      <div id="books" class="books-grid"></div>
+      <noscript><p style="text-align:center;color:var(--text);">Please enable JavaScript to view the character library.</p></noscript>
+    </div>
+  </section>
+
+  <!-- VERSE -->
+  <section class="verse-band">
+    <blockquote>&ldquo;Is it not to share your food with the hungry and to provide the poor wanderer with shelter — when you see the naked, to clothe them, and not to turn away from your own flesh and blood?&rdquo;</blockquote>
+    <div class="ref">— Isaiah 58:7</div>
+  </section>
+
+  <!-- DONATE -->
+  <section class="section" style="background: var(--white);">
+    <div class="wrap">
+      <div class="section-title">
+        <div class="kicker">Donate as Your Heart Leads</div>
+        <h2>Bring Hope to the Nations</h2>
+        <p>Join us in bringing hope to the nations. Choose to support our missions in India, Myanmar, Cambodia, or Thailand. All contributions are fully audited for transparency and managed under the rights of Broad Vision.</p>
+      </div>
+      <div style="text-align:center;">
+        <a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener" class="btn btn-green">Start Your Donation!</a>
+      </div>
+      <p style="text-align:center; margin-top: 18px; font-size: 0.9rem; color: var(--text);">&#128737;&#65039; <strong>Verified &amp; Audited by Broad Vision</strong></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>About Broad Vision</h4>
+        <p style="max-width:260px;">A welcoming church community passionate about faith, love, and service.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="mission.html">Our Mission</a></li>
+          <li><a href="characters.html">Characters</a></li>
+          <li><a href="devotion.html">Devotional</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="https://linktr.ee/LivingTheVision" target="_blank" rel="noopener">Podcast &amp; Socials</a></li>
+          <li><a href="https://forms.gle/N2oJS45cPmEjyHrQ9" target="_blank" rel="noopener">Prayer Platform</a></li>
+          <li><a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener">Donate</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Info</h4>
+        <ul>
+          <li>Worldwide</li>
+          <li><a href="contact.html">Send a message</a></li>
+          <li><a href="https://forms.gle/CHB7q6NDHBAKiC3N8" target="_blank" rel="noopener">Donate Now</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Broad Vision. Created with care &middot; Isaiah 58:7
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // BOOKS: emoji, name, category, then characters as [emoji, name, tagline, link]
+    // Replace "#" in any character link with the real write-up URL to add it to the library.
+    const BOOKS = [
+      { icon: "\u{1F30D}", name: "Genesis", part: "OT", chars: [
+        ["\u{1F33F}", "Adam", "The first man", "#"],
+        ["\u{1F34E}", "Eve", "Mother of all the living", "#"],
+        ["\u{1F33E}", "Cain", "The restless wanderer", "#"],
+        ["\u{1F411}", "Abel", "The faithful shepherd", "#"],
+        ["\u{1F6F6}", "Noah", "The faithful builder", "#"],
+        ["\u{2B50}", "Abraham", "Father of many nations", "#"],
+        ["\u{1F337}", "Sarah", "Laughing mother of Isaac", "#"],
+        ["\u{26F0}\uFE0F", "Isaac", "The promised son", "#"],
+        ["\u{1FA9C}", "Jacob", "The one who wrestled & was renamed", "#"],
+        ["\u{1F3A8}", "Joseph", "The dreamer who served", "#"],
+        ["\u{1F981}", "Judah", "The lion from whom kings come", "#"]
+      ]},
+      { icon: "\u{1F5FB}", name: "Exodus", part: "OT", chars: [
+        ["\u{1F3D4}\uFE0F", "Moses", "Leader of God's people", "#"],
+        ["\u{1F514}", "Aaron", "The first high priest", "#"],
+        ["\u{1F941}", "Miriam", "The prophet who led in song", "#"],
+        ["\u{1F451}", "Pharaoh", "The hardened king", "#"],
+        ["\u{1F9FA}", "Jochebed", "The mother who trusted God", "#"]
+      ]},
+      { icon: "\u{1F3DB}\uFE0F", name: "Leviticus", part: "OT", chars: [
+        ["\u{1F33F}", "Aaron", "The priesthood & the altar", "#"],
+        ["\u{1F525}", "Nadab & Abihu", "The strange fire", "#"]
+      ]},
+      { icon: "\u{1F9EE}", name: "Numbers", part: "OT", chars: [
+        ["\u{1F3DB}\uFE0F", "Moses", "Leading through the wilderness", "#"],
+        ["\u{1F33F}", "Aaron", "The staff that budded", "#"],
+        ["\u{1F347}", "Caleb", "A different spirit", "#"],
+        ["\u{2694}\uFE0F", "Joshua", "Faithful in the wilderness", "#"],
+        ["\u{1F40E}", "Balaam", "The prophet & the donkey", "#"],
+        ["\u{1F4A5}", "Korah", "The rebellion", "#"]
+      ]},
+      { icon: "\u{1F4DC}", name: "Deuteronomy", part: "OT", chars: [
+        ["\u{1F4DC}", "Moses", "The law repeated & the final words", "#"]
+      ]},
+      { icon: "\u{1F3F9}", name: "Joshua", part: "OT", chars: [
+        ["\u{1F3F9}", "Joshua", "The conquering leader", "#"],
+        ["\u{1F9F5}", "Rahab", "The scarlet cord", "#"],
+        ["\u{26F0}\uFE0F", "Caleb", "Hebron for the faithful", "#"],
+        ["\u{26A0}\uFE0F", "Achan", "The hidden sin at Ai", "#"]
+      ]},
+      { icon: "\u{2696}\uFE0F", name: "Judges", part: "OT", chars: [
+        ["\u{1F334}", "Deborah", "The prophet-judge", "#"],
+        ["\u{1F3FA}\uFE0F", "Gideon", "The fleece & the 300", "#"],
+        ["\u{1F4AA}", "Samson", "Strength & downfall", "#"],
+        ["\u{1F5E1}\uFE0F", "Ehud", "The deliverer", "#"],
+        ["\u{1F981}", "Jephthah", "The vow & the daughter", "#"]
+      ]},
+      { icon: "\u{1F33C}", name: "Ruth", part: "OT", chars: [
+        ["\u{1F33E}", "Ruth", "The faithful gleaner", "#"],
+        ["\u{1F475}", "Naomi", "Bitter, then restored", "#"],
+        ["\u{1F9E1}", "Boaz", "The kinsman-redeemer", "#"],
+        ["\u{1F64B}", "Orpah", "The one who turned back", "#"]
+      ]},
+      { icon: "\u{1F451}", name: "1 Samuel", part: "OT", chars: [
+        ["\u{1F56F}\uFE0F", "Samuel", "Called by name", "#"],
+        ["\u{1F64F}", "Hannah", "The mother who prayed", "#"],
+        ["\u{1F474}", "Eli", "The aging priest", "#"],
+        ["\u{1F451}", "Saul", "The people's king", "#"],
+        ["\u{1F3B6}", "David", "The shepherd king", "#"],
+        ["\u{1F5FF}", "Goliath", "The giant of Gath", "#"],
+        ["\u{1F91D}", "Jonathan", "A friend closer than a brother", "#"],
+        ["\u{1F347}", "Abigail", "Wisdom that turned away wrath", "#"]
+      ]},
+      { icon: "\u{1F5E1}\uFE0F", name: "2 Samuel", part: "OT", chars: [
+        ["\u{1F3B6}", "David", "A man after God's own heart", "#"],
+        ["\u{1F6BF}", "Bathsheba", "Grace in the story", "#"],
+        ["\u{2702}\uFE0F", "Absalom", "The rebel son", "#"],
+        ["\u{2694}\uFE0F", "Joab", "The ruthless general", "#"],
+        ["\u{2696}\uFE0F", "Nathan", "The truthful prophet", "#"]
+      ]},
+      { icon: "\u{1F479}", name: "1 Kings", part: "OT", chars: [
+        ["\u{1F48E}", "Solomon", "The wise king", "#"],
+        ["\u{1F525}", "Elijah", "The fire of the Lord", "#"],
+        ["\u{1F327}", "Ahab", "The king who chose evil", "#"],
+        ["\u{1F484}", "Jezebel", "The wicked queen", "#"],
+        ["\u{1F964}", "Widow of Zarephath", "Faith in famine", "#"]
+      ]},
+      { icon: "\u{1F451}", name: "2 Kings", part: "OT", chars: [
+        ["\u{1F9E5}", "Elisha", "The double portion", "#"],
+        ["\u{1F4A7}", "Naaman", "Washed in the Jordan", "#"],
+        ["\u{1F4DC}", "Josiah", "The boy who found the Word", "#"],
+        ["\u{23F3}", "Hezekiah", "The praying king", "#"],
+        ["\u{1F6CC}", "Shunammite Woman", "Hospitality rewarded", "#"]
+      ]},
+      { icon: "\u{1F4DA}", name: "1 Chronicles", part: "OT", chars: [
+        ["\u{1F3B6}", "David", "The king & the temple plans", "#"],
+        ["\u{1F48E}", "Solomon", "Anointed to build", "#"],
+        ["\u{1F3B5}", "Asaph", "The worship leader", "#"]
+      ]},
+      { icon: "\u{1F4DA}", name: "2 Chronicles", part: "OT", chars: [
+        ["\u{1F48E}", "Solomon", "The temple built & dedicated", "#"],
+        ["\u{1F6E1}\uFE0F", "Jehoshaphat", "Seeking the Lord", "#"],
+        ["\u{23F3}", "Hezekiah", "Revival in Judah", "#"],
+        ["\u{1F4DC}", "Josiah", "The Passover restored", "#"]
+      ]},
+      { icon: "\u{1F3DB}\uFE0F", name: "Ezra", part: "OT", chars: [
+        ["\u{1F4DC}", "Ezra", "The ready scribe", "#"],
+        ["\u{1F3D7}\uFE0F", "Zerubbabel", "Rebuilding the temple", "#"]
+      ]},
+      { icon: "\u{1F9F1}", name: "Nehemiah", part: "OT", chars: [
+        ["\u{1F9F1}", "Nehemiah", "Rebuilding the walls", "#"],
+        ["\u{1F4DC}", "Ezra", "Reading the Law aloud", "#"]
+      ]},
+      { icon: "\u{1F478}", name: "Esther", part: "OT", chars: [
+        ["\u{1F478}", "Esther", "For such a time as this", "#"],
+        ["\u{1F7E3}", "Mordecai", "The faithful uncle", "#"],
+        ["\u{1FAA9}", "Haman", "The plotter who fell", "#"],
+        ["\u{1F3EF}", "Ahasuerus", "The mighty king", "#"]
+      ]},
+      { icon: "\u{1F9CE}", name: "Job", part: "OT", chars: [
+        ["\u{1F9CE}", "Job", "The patient sufferer", "#"],
+        ["\u{1F5E3}\uFE0F", "Eliphaz", "The first friend", "#"],
+        ["\u{1F393}", "Bildad", "The second friend", "#"],
+        ["\u{1F5E8}\uFE0F", "Zophar", "The third friend", "#"],
+        ["\u{1F32C}\uFE0F", "Elihu", "The younger voice", "#"]
+      ]},
+      { icon: "\u{1F3B6}", name: "Psalms", part: "OT", chars: [
+        ["\u{1F3B6}", "David", "The heart of the psalms", "#"],
+        ["\u{1F3B5}", "Asaph", "A voice of praise & lament", "#"]
+      ]},
+      { icon: "\u{1F4A1}", name: "Proverbs", part: "OT", chars: [
+        ["\u{1F48E}", "Solomon", "The collector of wisdom", "#"],
+        ["\u{1F41C}", "Agur", "Humble wisdom", "#"],
+        ["\u{1F451}", "Lemuel", "The royal teacher", "#"]
+      ]},
+      { icon: "\u{1F300}", name: "Ecclesiastes", part: "OT", chars: [
+        ["\u{1F300}", "The Teacher", "Meaning under the sun", "#"]
+      ]},
+      { icon: "\u{1F498}", name: "Song of Solomon", part: "OT", chars: [
+        ["\u{1F478}", "The Beloved", "The bride of the song", "#"],
+        ["\u{1F937}", "The Lover", "The bridegroom of the song", "#"]
+      ]},
+      { icon: "\u{1F525}", name: "Isaiah", part: "OT", chars: [
+        ["\u{1F525}", "Isaiah", "The royal prophet", "#"],
+        ["\u{23F3}", "Hezekiah", "The praying king", "#"],
+        ["\u{1F937}", "Uzziah", "The king who saw glory", "#"]
+      ]},
+      { icon: "\u{1F622}", name: "Jeremiah", part: "OT", chars: [
+        ["\u{1F622}", "Jeremiah", "The weeping prophet", "#"],
+        ["\u{1F4DC}", "Baruch", "The faithful scribe", "#"],
+        ["\u{26D3}\uFE0F", "Zedekiah", "The last king of Judah", "#"]
+      ]},
+      { icon: "\u{1F940}", name: "Lamentations", part: "OT", chars: [
+        ["\u{1F622}", "Jeremiah", "Weeping over Jerusalem", "#"]
+      ]},
+      { icon: "\u{1F441}\uFE0F", name: "Ezekiel", part: "OT", chars: [
+        ["\u{1F441}\uFE0F", "Ezekiel", "The man of visions", "#"]
+      ]},
+      { icon: "\u{1F981}", name: "Daniel", part: "OT", chars: [
+        ["\u{1F981}", "Daniel", "The man who served faithfully", "#"],
+        ["\u{1F525}", "Shadrach, Meshach & Abednego", "The fiery furnace", "#"],
+        ["\u{1F451}", "Nebuchadnezzar", "The humbled king", "#"],
+        ["\u{1F37B}", "Belshazzar", "The writing on the wall", "#"]
+      ]},
+      { icon: "\u{1F494}", name: "Hosea", part: "OT", chars: [
+        ["\u{1F494}", "Hosea", "Love that would not quit", "#"],
+        ["\u{1F494}", "Gomer", "The unfaithful bride", "#"]
+      ]},
+      { icon: "\u{1F997}", name: "Joel", part: "OT", chars: [
+        ["\u{1F997}", "Joel", "The day of the Lord", "#"]
+      ]},
+      { icon: "\u{1F333}", name: "Amos", part: "OT", chars: [
+        ["\u{1F333}", "Amos", "The shepherd prophet", "#"]
+      ]},
+      { icon: "\u{26F0}\uFE0F", name: "Obadiah", part: "OT", chars: [
+        ["\u{1F3D4}\uFE0F", "Obadiah", "Against the mountains of Edom", "#"]
+      ]},
+      { icon: "\u{1F433}", name: "Jonah", part: "OT", chars: [
+        ["\u{1F433}", "Jonah", "The reluctant prophet", "#"],
+        ["\u{1F3ED}", "Ninevites", "The city that repented", "#"]
+      ]},
+      { icon: "\u{1F3D4}\uFE0F", name: "Micah", part: "OT", chars: [
+        ["\u{2696}\uFE0F", "Micah", "Justice, mercy & humility", "#"]
+      ]},
+      { icon: "\u{1F30B}", name: "Nahum", part: "OT", chars: [
+        ["\u{1F30B}", "Nahum", "The fall of Nineveh", "#"]
+      ]},
+      { icon: "\u{1F5FC}", name: "Habakkuk", part: "OT", chars: [
+        ["\u{1F5FC}", "Habakkuk", "The watchman on the tower", "#"]
+      ]},
+      { icon: "\u{1F311}", name: "Zephaniah", part: "OT", chars: [
+        ["\u{1F311}", "Zephaniah", "The day of the Lord", "#"]
+      ]},
+      { icon: "\u{1F6E0}\uFE0F", name: "Haggai", part: "OT", chars: [
+        ["\u{1F6E0}\uFE0F", "Haggai", "Rebuilding the house of God", "#"]
+      ]},
+      { icon: "\u{1FA94}", name: "Zechariah", part: "OT", chars: [
+        ["\u{1FA94}", "Zechariah", "The visions of hope", "#"]
+      ]},
+      { icon: "\u{2600}\uFE0F", name: "Malachi", part: "OT", chars: [
+        ["\u{2600}\uFE0F", "Malachi", "The sun of righteousness", "#"]
+      ]},
+      { icon: "\u{1F4B0}", name: "Matthew", part: "NT", chars: [
+        ["\u{1F4B0}", "Matthew", "The tax collector turned disciple", "#"]
+      ]},
+      { icon: "\u{270D}\uFE0F", name: "Mark", part: "NT", chars: [
+        ["\u{270D}\uFE0F", "Mark", "The gospel writer", "#"]
+      ]},
+      { icon: "\u{1FA7A}", name: "Luke", part: "NT", chars: [
+        ["\u{1FA7A}", "Luke", "The beloved physician", "#"]
+      ]},
+      { icon: "\u{1F985}", name: "John", part: "NT", chars: [
+        ["\u{1F985}", "John", "The disciple Jesus loved", "#"],
+        ["\u{1F50A}", "John the Baptist", "The voice in the wilderness", "#"]
+      ]},
+      { icon: "\u{1F9ED}", name: "Acts", part: "NT", chars: [
+        ["\u{1F5DD}\uFE0F", "Peter", "The rock of the church", "#"],
+        ["\u{1F9ED}", "Paul", "Apostle to the nations", "#"],
+        ["\u{271D}\uFE0F", "Stephen", "The first martyr", "#"],
+        ["\u{1F91D}", "Barnabas", "Son of encouragement", "#"],
+        ["\u{1F49C}", "Lydia", "The first convert in Europe", "#"],
+        ["\u{1F3B8}", "Silas", "Praise in the prison", "#"],
+        ["\u{1F3C6}", "Cornelius", "The centurion who feared God", "#"],
+        ["\u{1F4E3}", "Philip", "The evangelist", "#"],
+        ["\u{1F91B}", "Ananias", "The messenger to Saul", "#"]
+      ]},
+      { icon: "\u{271D}\uFE0F", name: "Romans", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The gospel explained", "#"]
+      ]},
+      { icon: "\u{1F497}", name: "1 Corinthians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "Love that never fails", "#"],
+        ["\u{1F393}", "Apollos", "The eloquent teacher", "#"]
+      ]},
+      { icon: "\u{1F91D}", name: "2 Corinthians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "Comfort in affliction", "#"],
+        ["\u{1F9F3}", "Titus", "The trusted messenger", "#"]
+      ]},
+      { icon: "\u{1F98B}", name: "Galatians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "Freedom in Christ", "#"]
+      ]},
+      { icon: "\u{1F6E1}\uFE0F", name: "Ephesians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The armor of God", "#"],
+        ["\u{1F4E8}", "Tychicus", "The faithful deliverer", "#"]
+      ]},
+      { icon: "\u{1F3B5}", name: "Philippians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "Joy in every circumstance", "#"],
+        ["\u{1F3C3}", "Timothy", "Proven character", "#"],
+        ["\u{1F381}", "Epaphroditus", "The sacrificial servant", "#"]
+      ]},
+      { icon: "\u{1F451}", name: "Colossians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "Christ above all", "#"],
+        ["\u{1F93F}", "Epaphras", "Wrestling in prayer", "#"],
+        ["\u{1F9F3}", "Onesimus", "The transformed slave", "#"]
+      ]},
+      { icon: "\u{1F3BA}", name: "1 Thessalonians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The coming of the Lord", "#"],
+        ["\u{1F3C3}", "Timothy", "Sent to strengthen", "#"],
+        ["\u{1F3B8}", "Silas", "Co-worker in the gospel", "#"]
+      ]},
+      { icon: "\u{1F3BA}", name: "2 Thessalonians", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The day of the Lord", "#"]
+      ]},
+      { icon: "\u{1F393}", name: "1 Timothy", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The mentor", "#"],
+        ["\u{1F3C3}", "Timothy", "The young pastor", "#"]
+      ]},
+      { icon: "\u{1FABD}", name: "2 Timothy", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The final charge", "#"],
+        ["\u{1F3C3}", "Timothy", "The legacy of faith", "#"],
+        ["\u{1F9E1}", "Onesiphorus", "Not ashamed of the chain", "#"],
+        ["\u{1F940}", "Demas", "The one who loved this world", "#"]
+      ]},
+      { icon: "\u{1F4CB}", name: "Titus", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "The letters of leadership", "#"],
+        ["\u{1F9F3}", "Titus", "Setting things in order", "#"]
+      ]},
+      { icon: "\u{1F48C}", name: "Philemon", part: "NT", chars: [
+        ["\u{1F9ED}", "Paul", "A plea out of love", "#"],
+        ["\u{1F9F3}", "Onesimus", "From slave to brother", "#"]
+      ]},
+      { icon: "\u{1F31F}", name: "Hebrews", part: "NT", chars: [
+        ["\u{1F31F}", "The Author", "The better covenant", "#"],
+        ["\u{1F6E1}\uFE0F", "Heroes of Faith", "The cloud of witnesses", "#"]
+      ]},
+      { icon: "\u{1FAB4}", name: "James", part: "NT", chars: [
+        ["\u{1FAB4}", "James", "Faith that works", "#"]
+      ]},
+      { icon: "\u{2693}", name: "1 Peter", part: "NT", chars: [
+        ["\u{1F5DD}\uFE0F", "Peter", "Hope in suffering", "#"],
+        ["\u{1F4E9}", "Silvanus", "The faithful brother", "#"]
+      ]},
+      { icon: "\u{1F4CB}", name: "2 Peter", part: "NT", chars: [
+        ["\u{1F5DD}\uFE0F", "Peter", "Growing in grace", "#"]
+      ]},
+      { icon: "\u{2764}\uFE0F", name: "1 John", part: "NT", chars: [
+        ["\u{1F985}", "John", "God is love", "#"]
+      ]},
+      { icon: "\u{1F48C}", name: "2 John", part: "NT", chars: [
+        ["\u{1F985}", "John the Elder", "Walk in truth & love", "#"]
+      ]},
+      { icon: "\u{1F644}", name: "3 John", part: "NT", chars: [
+        ["\u{1F985}", "John the Elder", "The beloved Gaius", "#"],
+        ["\u{1F37D}\uFE0F", "Gaius", "Hospitality for the truth", "#"]
+      ]},
+      { icon: "\u{2694}\uFE0F", name: "Jude", part: "NT", chars: [
+        ["\u{2694}\uFE0F", "Jude", "Contend for the faith", "#"]
+      ]},
+      { icon: "\u{1F52E}", name: "Revelation", part: "NT", chars: [
+        ["\u{1F3DD}\uFE0F", "John on Patmos", "The vision of glory", "#"],
+        ["\u{1FAF6}", "The Risen Jesus", "King of kings & Lord of lords", "#"],
+        ["\u{1FA94}", "The Seven Churches", "Letters to the churches", "#"]
+      ]}
+    ];
+
+    const booksEl = document.getElementById("books");
+    const html = BOOKS.map((b, i) => {
+      const chars = b.chars.map(([ci, name, tag, link]) =>
+        `<li class="char-item"><span class="ci">${ci}</span><div class="ct"><strong>${name}</strong><small>${tag}</small></div><a href="${link}" target="_blank" rel="noopener" class="cr">Read</a></li>`
+      ).join("");
+      return `<details class="book-card3">
+        <summary><span class="bi">${b.icon}</span><strong>${b.name}</strong><em>${b.part}</em><span class="cnt">${b.chars.length}</span><span class="chev">&#9660;</span></summary>
+        <ul class="char-list">${chars}</ul>
+      </details>`;
+    }).join("");
+    booksEl.innerHTML = html;
+  </script>
+</body>
+</html>
