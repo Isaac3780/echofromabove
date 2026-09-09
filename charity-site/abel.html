@@ -398,29 +398,40 @@
     (function () {
       const bookEl = document.getElementById("book");
       const counter = document.getElementById("flipCounter");
+      const pagesHTML = bookEl.innerHTML;
+      let flipInstance = null;
+
+      document.addEventListener("keydown", function (e) {
+        if (!flipInstance) { return; }
+        if (e.key === "ArrowRight") { flipInstance.flipNext(); }
+        else if (e.key === "ArrowLeft") { flipInstance.flipPrev(); }
+      });
 
       function startFlip() {
         const isSmall = window.matchMedia("(max-width: 760px)").matches;
         const pageFlip = new St.PageFlip(bookEl, {
-          width: 500, height: isSmall ? 660 : 415,
+          width: isSmall ? 360 : 500,
+          height: isSmall ? 680 : 415,
           size: "stretch",
-          minWidth: 280, maxWidth: 960, minHeight: 320, maxHeight: 720,
+          minWidth: 280, maxWidth: 960,
+          minHeight: isSmall ? 520 : 300,
+          maxHeight: isSmall ? 720 : 790,
           drawShadow: true,
           flippingTime: 900,
-          usePortrait: true,
+          usePortrait: isSmall,
           startZIndex: 0,
           autoSize: true,
           maxShadowOpacity: 1,
           showCover: true,
-          mobileScrollSupport: true,
+          mobileScrollSupport: isSmall,
           clickEventForward: true,
-          useMouseEvents: true,
+          useMouseEvents: !isSmall,
           swipeDistance: 30,
           showPageCorners: true,
           disableFlipByClick: false
         });
 
-        pageFlip.loadFromHTML(document.querySelectorAll("#book .bookpage"));
+        pageFlip.loadFromHTML(bookEl.querySelectorAll(".bookpage"));
 
         const total = pageFlip.getPageCount();
         counter.textContent = "Page 1 of " + total;
@@ -430,20 +441,30 @@
         window.flipPrev = function () { pageFlip.flipPrev(); };
         window.flipHome = function () { pageFlip.turnToPage(0); };
 
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowRight") { pageFlip.flipNext(); }
-          else if (e.key === "ArrowLeft") { pageFlip.flipPrev(); }
-        });
+        return pageFlip;
+      }
+
+      function init() {
+        if (flipInstance && typeof flipInstance.destroy === "function") {
+          try { flipInstance.destroy(); } catch (err) {}
+        }
+        bookEl.innerHTML = pagesHTML;
+        flipInstance = startFlip();
       }
 
       if (typeof St !== "undefined" && St.PageFlip) {
-        startFlip();
+        init();
       } else {
         setTimeout(function () {
-          if (typeof St !== "undefined" && St.PageFlip) { startFlip(); }
+          if (typeof St !== "undefined" && St.PageFlip) { init(); }
           else { counter.textContent = "Flipbook could not be loaded - please check your connection."; }
         }, 1500);
       }
+
+      const mq = window.matchMedia("(max-width: 760px)");
+      const onBreakpoint = function () { init(); };
+      if (mq.addEventListener) { mq.addEventListener("change", onBreakpoint); }
+      else if (mq.addListener) { mq.addListener(onBreakpoint); }
     })();
   </script>
 </body>
