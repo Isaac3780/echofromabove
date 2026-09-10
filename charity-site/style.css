@@ -62,10 +62,13 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .nav-socials a[aria-label="Instagram"] { color: #d62976; }
 .nav-socials a[aria-label="Facebook"] { color: #1877f2; }
 .nav-socials a[aria-label="YouTube"] { color: #ff0000; }
+.nav-socials.mobile-socials { display: none; }
 .navbar.scrolled .nav-socials a[aria-label="Instagram"] { color: #d62976; }
 .navbar.scrolled .nav-socials a[aria-label="Facebook"] { color: #1877f2; }
 .navbar.scrolled .nav-socials a[aria-label="YouTube"] { color: #ff0000; }
 .nav-donate { padding: 11px 24px; font-size: 0.85rem; white-space: nowrap; }
+.btn.soon { filter: grayscale(1); opacity: 0.6; cursor: not-allowed; pointer-events: none; box-shadow: none; }
+.btn.soon:hover { transform: none; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -446,6 +449,7 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
 .footer-grid li { margin-bottom: 9px; }
 .footer-grid a:hover { color: var(--gold); }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 22px; text-align: center; max-width: 1200px; margin: 0 auto; }
+.footer-grid li a.soon { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
@@ -462,7 +466,8 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
     background: none; box-shadow: none; padding: 0;
   }
   .nav-left .nav-links a, .nav-right .nav-links a { color: var(--navy); display: block; }
-  .nav-socials { display: none; }
+  .nav-socials.desktop-socials { display: none; }
+  .nav-socials.mobile-socials { display: flex; padding: 14px 22px 4px; border-right: none; flex-wrap: wrap; }
   .nav-donate { order: 1; margin: 4px 0; width: 100%; text-align: center; }
   .split { grid-template-columns: 1fr; }
   .mv-split .wrap { grid-template-columns: 1fr; gap: 40px; padding: 140px 0 60px; }
