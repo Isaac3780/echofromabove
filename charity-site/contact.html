@@ -65,26 +65,31 @@
         <p>Send us a message and we'll get back to you as soon as we can.</p>
       </div>
 
-      <form class="contact-form" action="https://forms.gle/CHB7q6NDHBAKiC3N8" method="get" target="_blank">
+      <form class="contact-form" id="contactForm" method="post">
         <div class="form-row">
           <div class="field">
             <label for="name">Your Name</label>
-            <input type="text" id="name" name="entry.name" placeholder="Full name" required />
+            <input type="text" id="name" name="name" placeholder="Full name" required />
           </div>
           <div class="field">
             <label for="email">Your Email</label>
-            <input type="email" id="email" name="entry.email" placeholder="you@email.com" required />
+            <input type="email" id="email" name="email" placeholder="you@email.com" required />
           </div>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number <span style="font-weight:400; color:var(--text);">(optional)</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="+65 8123 4567" />
         </div>
 
         <div class="field">
           <label for="subject">Subject</label>
-          <input type="text" id="subject" name="entry.subject" placeholder="How can we help?" />
+          <input type="text" id="subject" name="subject" placeholder="How can we help?" />
         </div>
 
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" name="entry.message" placeholder="Write your message here&hellip;" required></textarea>
+          <textarea id="message" name="message" placeholder="Write your message here&hellip;" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-green btn-block">Send Message</button>
@@ -171,5 +176,24 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('contactForm');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var phone = document.getElementById('phone').value.trim();
+        var subject = document.getElementById('subject').value.trim() || 'New Contact Message';
+        var message = document.getElementById('message').value.trim();
+        var body = 'Name: ' + name + '\nEmail: ' + email;
+        if (phone) body += '\nPhone: ' + phone;
+        body += '\n\n' + message;
+        var href = 'mailto:broadvision378@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        window.location.href = href;
+      });
+    })();
+  </script>
 </body>
 </html>
