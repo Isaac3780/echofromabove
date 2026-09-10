@@ -89,6 +89,45 @@ h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); line-height:
 .btn-blue:hover { background: #3d8fd1; }
 .btn-block { display: block; width: 100%; text-align: center; }
 
+/* ---------- Salvation confirmation rain ---------- */
+.confetti { position: absolute; inset: 0 0 auto 0; height: 640px; overflow: hidden; pointer-events: none; }
+.confetti span { position: absolute; top: -20px; width: 12px; height: 18px; border-radius: 2px; opacity: 0.9; animation: confetti-fall linear 6; }
+.confetti span:nth-child(18n+1)  { left: 4%;  background: #ff5f6d; animation-duration: 4.6s; animation-delay: 1.4s; }
+.confetti span:nth-child(18n+2)  { left: 12%; background: #ffd93d; animation-duration: 5.4s; animation-delay: 1.8s; }
+.confetti span:nth-child(18n+3)  { left: 20%; background: #6bcb77; animation-duration: 4.4s; animation-delay: 2.2s; }
+.confetti span:nth-child(18n+4)  { left: 28%; background: #4d96ff; animation-duration: 5.1s; animation-delay: 1.6s; }
+.confetti span:nth-child(18n+5)  { left: 36%; background: #ff9f45; animation-duration: 4.7s; animation-delay: 2.0s; }
+.confetti span:nth-child(18n+6)  { left: 44%; background: #c56cf0; animation-duration: 5.3s; animation-delay: 1.5s; }
+.confetti span:nth-child(18n+7)  { left: 52%; background: #ff5f6d; animation-duration: 4.5s; animation-delay: 2.4s; }
+.confetti span:nth-child(18n+8)  { left: 60%; background: #ffd93d; animation-duration: 5.0s; animation-delay: 1.9s; }
+.confetti span:nth-child(18n+9)  { left: 68%; background: #6bcb77; animation-duration: 4.8s; animation-delay: 1.4s; }
+.confetti span:nth-child(18n+10) { left: 76%; background: #4d96ff; animation-duration: 4.3s; animation-delay: 2.1s; }
+.confetti span:nth-child(18n+11) { left: 84%; background: #ff9f45; animation-duration: 5.2s; animation-delay: 1.7s; }
+.confetti span:nth-child(18n+12) { left: 92%; background: #c56cf0; animation-duration: 4.6s; animation-delay: 2.3s; }
+.confetti span:nth-child(18n+13) { left: 9%;  background: #ffd93d; animation-duration: 5.5s; animation-delay: 2.0s; }
+.confetti span:nth-child(18n+14) { left: 17%; background: #4d96ff; animation-duration: 4.5s; animation-delay: 1.6s; }
+.confetti span:nth-child(18n+15) { left: 25%; background: #ff5f6d; animation-duration: 5.1s; animation-delay: 2.4s; }
+.confetti span:nth-child(18n+16) { left: 33%; background: #6bcb77; animation-duration: 4.7s; animation-delay: 1.8s; }
+.confetti span:nth-child(18n+17) { left: 41%; background: #c56cf0; animation-duration: 5.0s; animation-delay: 1.4s; }
+.confetti span:nth-child(18n+18) { left: 49%; background: #ff9f45; animation-duration: 4.3s; animation-delay: 2.0s; }
+.confetti span:nth-child(6n+2), .confetti span:nth-child(6n+4), .confetti span:nth-child(6n+6) { border-radius: 50%; }
+.confetti span:nth-child(18n+6),
+.confetti span:nth-child(18n+8),
+.confetti span:nth-child(18n+10),
+.confetti span:nth-child(18n+12),
+.confetti span:nth-child(18n+14),
+.confetti span:nth-child(18n+16),
+.confetti span:nth-child(18n+18) { top: -160px; }
+.confetti span:nth-child(18n+3),
+.confetti span:nth-child(18n+7),
+.confetti span:nth-child(18n+11),
+.confetti span:nth-child(18n+15),
+.confetti span:nth-child(18n+17) { top: -340px; }
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+  100% { transform: translateY(680px) rotate(720deg); opacity: 0.9; }
+}
+
 /* ---------- Page hero (interior pages) ---------- */
 .page-hero {
   position: relative; min-height: 46vh; display: flex; align-items: center; justify-content: center;
