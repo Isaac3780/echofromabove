@@ -539,6 +539,7 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
   .contact-form { padding: 30px 22px; }
   .stats .number { font-size: 2.4rem; }
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .amen-btn { position: static !important; transform: none !important; margin-top: 14px; }
 }
 
 /* ---------- Flipbook reader ---------- */
