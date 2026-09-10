@@ -427,7 +427,9 @@ a.block-card { display: block; color: inherit; }
   .testament-wrap .books-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 600px) {
-  .testament-wrap .books-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .testament-wrap .books-grid { grid-template-columns: 1fr; gap: 10px; }
+  .testament-wrap .book-box { width: 100%; }
+  .char-link .ct-foot small { white-space: normal; text-overflow: clip; overflow: visible; }
 }
 
 /* ---------- Footer ---------- */
