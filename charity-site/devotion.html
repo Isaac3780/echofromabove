@@ -57,25 +57,36 @@
   </header>
 
   <!-- FLIPBOOKS -->
-  <section class="section">
+  <section id="start-reading" class="section" style="padding-top:30px;">
+    <div class="wrap" style="max-width:720px; text-align:center;">
+      <div style="position:relative;">
+        <img src="img/daily-bread.jpg" alt="Our daily bread" style="width:100%; border-radius:var(--radius); box-shadow:var(--shadow); display:block;" />
+        <a href="#" onclick="document.getElementById('start-reading').style.display='none'; var g=document.getElementById('book-grid'); g.style.display='block'; g.scrollIntoView({behavior:'smooth'}); return false;" class="btn btn-green amen-btn" style="position:absolute; left:50%; transform:translateX(-50%); bottom:18px; white-space:nowrap;">Let's Start Reading</a>
+      </div>
+      <p style="margin-top:14px; font-size:0.92rem; color:var(--text);">A daily portion of God&rsquo;s Word &middot; pick a book and jump straight to today&rsquo;s devotion.</p>
+    </div>
+  </section>
+
+  <!-- BOOK GRID (revealed when Start Reading clicked) -->
+  <section id="book-grid" class="section" style="padding-top:30px; display:none;">
     <div class="wrap">
       <div class="section-title">
         <div class="kicker">Read Online</div>
-        <h2>Daily Faith &mdash; Flipbooks</h2>
-        <p>A Book of 365 Days &middot; four volumes. Flip through the devotionals online.</p>
+        <h2>Daily Faith &mdash; Four Volumes</h2>
+        <p>A Book of 365 Days &middot; flip through the devotionals, or jump straight to any day.</p>
       </div>
 
       <div class="book-grid">
         <div class="book-card">
           <h4>Volume 1</h4>
           <p>Days 1&ndash;100 &middot; Book of 365 Days</p>
-          <a href="https://online.fliphtml5.com/qlaem/Daily-Devotion---Vol-1-Evv1/" target="_blank" rel="noopener" class="btn btn-green book-read">Read Volume 1</a>
+          <a href="devotion-vol1.html" class="btn btn-green book-read">Read Volume 1</a>
         </div>
 
         <div class="book-card">
           <h4>Volume 2</h4>
           <p>Days 101&ndash;200 &middot; Book of 365 Days</p>
-          <a href="https://online.fliphtml5.com/qlaem/Daily-Devotion---Vol-2/" target="_blank" rel="noopener" class="btn btn-green book-read">Read Volume 2</a>
+          <a href="devotion-vol2.html" class="btn btn-green book-read">Read Volume 2</a>
         </div>
 
         <div class="book-card">
