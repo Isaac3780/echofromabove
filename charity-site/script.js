@@ -26,11 +26,11 @@
   document.body.appendChild(fab);
 })();
 
-/* Social icons in footer bottom — injected on every page */
+/* Social icons in footer — injected under the description on every page */
 (function () {
-  if (document.querySelector(".footer-bottom .footer-socials")) return;
-  const bottom = document.querySelector(".footer-bottom");
-  if (!bottom) return;
+  if (document.querySelector(".footer-grid .footer-socials")) return;
+  const col = document.querySelector(".footer-grid > div:first-child");
+  if (!col) return;
   const wrap = document.createElement("div");
   wrap.className = "footer-socials";
   wrap.innerHTML =
@@ -38,7 +38,7 @@
     '<a href="https://www.facebook.com/share/17rr8SM1SV" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M20,10.1c0-5.5-4.5-10-10-10S0,4.5,0,10.1c0,5,3.7,9.1,8.4,9.9v-7H5.9v-2.9h2.5V7.9C8.4,5.4,9.9,4,12.2,4c1.1,0,2.2,0.2,2.2,0.2v2.5h-1.3c-1.2,0-1.6,0.8-1.6,1.6v1.9h2.8L13.9,13h-2.3v7C16.3,19.2,20,15.1,20,10.1z"/></svg></a>' +
     '<a href="https://open.spotify.com/show/0a6FLmbbuEbCT5A371Neod?si=fbc7a15857954547" target="_blank" rel="noopener" aria-label="Spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>' +
     '<a href="https://www.youtube.com/@DailyDevotions-Chr1st" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M19.6,5.2c-0.2-0.9-0.8-1.6-1.7-1.8C16.3,3,10,3,10,3S3.7,3,2.1,3.4C1.2,3.6,0.6,4.3,0.4,5.2C0,6.8,0,10,0,10s0,3.2,0.4,4.8c0.2,0.9,0.8,1.6,1.7,1.8C3.7,17,10,17,10,17s6.3,0,7.9-0.4c0.9-0.2,1.5-0.9,1.7-1.8C20,13.2,20,10,20,10S20,6.8,19.6,5.2z M8,13.2V6.8l5.4,3.2L8,13.2z"/></svg></a>';
-  bottom.insertBefore(wrap, bottom.firstChild);
+  col.appendChild(wrap);
 })();
 
 /* White nav on scroll */

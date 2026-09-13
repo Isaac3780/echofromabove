@@ -521,7 +521,7 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
 .footer-grid a:hover { color: var(--gold); }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 22px; text-align: center; max-width: 1200px; margin: 0 auto; }
 .footer-grid li a.soon { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
-.footer-socials { display: flex; justify-content: center; gap: 14px; margin-bottom: 18px; }
+.footer-socials { display: flex; gap: 14px; margin-top: 14px; }
 .footer-socials a { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); transition: 0.2s; }
 .footer-socials a:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
 .footer-socials a[aria-label="Instagram"] { color: #d62976; }
