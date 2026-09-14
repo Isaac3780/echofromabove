@@ -437,11 +437,11 @@
         const isSmall = window.matchMedia("(max-width: 760px)").matches;
         const pageFlip = new St.PageFlip(bookEl, {
           width: isSmall ? 360 : 500,
-          height: isSmall ? 680 : 415,
+          height: isSmall ? 900 : 415,
           size: "stretch",
           minWidth: 280, maxWidth: 960,
-          minHeight: isSmall ? 520 : 300,
-          maxHeight: isSmall ? 720 : 790,
+          minHeight: isSmall ? 860 : 300,
+          maxHeight: isSmall ? 960 : 790,
           drawShadow: true,
           flippingTime: 900,
           usePortrait: isSmall,
