@@ -1038,7 +1038,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
       }
 
       function listenHook(flip) {
-        let listen = { running:false, queue:[], idx:0, auto:false, utter:null };
+        let listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0, waitCount:0 };
         function pageDay(el) {
           const h = el.querySelector(".bp-head b");
           return h ? parseInt((h.textContent || "").replace(/\D+/g, ""), 10) : null;
@@ -1073,6 +1073,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           if (b) { b.innerHTML = on ? "&#9208; Stop" : "&#128266; Listen"; b.classList.toggle("playing", !!on); }
         }
         function stop() {
+          listen.session++;
           listen.running = false; listen.queue = []; listen.idx = 0; listen.auto = false; listen.utter = null;
           try { window.speechSynthesis.cancel(); } catch (e) {}
           setBtn(false);
@@ -1087,7 +1088,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           u.rate = 1; u.pitch = 1;
           let voices = [];
           try { voices = ss.getVoices().filter(function (v) { return /^en/i.test(v.lang); }); } catch (e2) {}
-          if (voices.length) { try { u.voice = voices[0]; } catch (e2) {} }
+          if (voices.length) { try { u.voice = pickVoice(voices); } catch (e2) {} }
           listen.utter = u;
           u.onend = function () {
             if (!listen.running) return;
@@ -1105,6 +1106,11 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           if (listen.running && !listen.auto) stop();
           listen.auto = false;
         });
+        window.__dvDay = null;
+        if (typeof window.flipToDay === "function") {
+          const orig = window.flipToDay;
+          window.flipToDay = function (n) { window.__dvDay = n; orig(n); };
+        }
         function warmVoice() {
           try {
             var ss = window.speechSynthesis;
@@ -1113,6 +1119,41 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
             u.volume = 0;
             ss.speak(u); ss.cancel();
           } catch (e3) {}
+        }
+        function pickVoice(voices) {
+          if (!voices.length) return null;
+          var FEMALE = /female|girl|jenny|aria|ava|allison|samantha|zoe|karen|serena|tessa|moira|fiona|michelle|susan|zira|hazel|natalie|amy|anna|katya|libby|sonia|kathy|virginia|olga|natasha|emily|evelyn|helena|florence|selena|christina|lori|bella|poppy|sally|lucy|webria|marissa/i;
+          var MALE = /\bmale\b|daniel|george|guy|darren|ryan|david|dave|thomas|oliver|paul|russell|mark|eric|james|stephen|ronald|bernie|william|michael|matthew|charles|christopher|brian|richard|trevor|graham|leslie|jurgen|yuri|miguel|ramon|diego|luca|arjun|tomas|carl|philip|peter|kenny|fred|jose|javier|owen|alex|sam\b/i;
+          for (let i = 0; i < voices.length; i++) {
+            const n = voices[i].name || "";
+            if (FEMALE.test(n) && !MALE.test(n)) return voices[i];
+          }
+          for (let j = 0; j < voices.length; j++) {
+            const m = voices[j].name || "";
+            if (!MALE.test(m)) return voices[j];
+          }
+          return voices[0];
+        }
+        function bookReady() {
+          try {
+            const st = flip.getState();
+            return st === "read" || st === undefined || st === null;
+          } catch (e) { return true; }
+        }
+        function desiredStartPage() {
+          const c = flip.getCurrentPageIndex();
+          const n = flip.getPageCount();
+          const vis = [];
+          if (c >= 0 && c < n) vis.push(c);
+          if (c + 1 < n) vis.push(c + 1);
+          if (window.__dvDay) {
+            for (let i = 0; i < vis.length; i++) {
+              let el;
+              try { el = flip.getPage(vis[i]).getElement(); } catch (e) { continue; }
+              if (pageDay(el) === window.__dvDay) return vis[i];
+            }
+          }
+          return c;
         }
         function firstEnglishPage() {
           const n = flip.getPageCount();
@@ -1126,31 +1167,42 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           }
           return -1;
         }
+        function startReading() {
+          if (!bookReady()) {
+            if (listen.waitCount++ > 120) { listen.waitCount = 0; collectAndPlay(); return; }
+            const my = listen.session;
+            setTimeout(function () { if (listen.session === my) startReading(); }, 100);
+            return;
+          }
+          collectAndPlay();
+        }
+        function collectAndPlay() {
+          const want = desiredStartPage();
+          window.__dvDay = null;
+          let t = collectDay(want);
+          if (!t.length) {
+            const start = firstEnglishPage();
+            if (start < 0) { setBtn(false); return; }
+            if (start !== want) {
+              listen.auto = true;
+              flip.turnToPage(start);
+              startReading();
+              return;
+            }
+            t = collectDay(start);
+          }
+          if (!t.length) { setBtn(false); return; }
+          listen.queue = t; listen.idx = 0; listen.running = true;
+          setBtn(true);
+          readNext();
+        }
         window.toggleListen = function () {
           if (!flip) return;
           if (listen.running) { stop(); return; }
           warmVoice();
-          let t = collectDay(flip.getCurrentPageIndex());
-          if (!t.length) {
-            const start = firstEnglishPage();
-            if (start < 0) return;
-            if (start !== flip.getCurrentPageIndex()) {
-              listen.auto = true;
-              flip.turnToPage(start);
-            }
-            setTimeout(function () {
-              listen.auto = false;
-              t = collectDay(start);
-              if (!t.length) return;
-              listen.queue = t; listen.idx = 0; listen.running = true;
-              setBtn(true);
-              readNext();
-            }, 1000);
-            return;
-          }
-          listen.queue = t; listen.idx = 0; listen.running = true;
-          setBtn(true);
-          readNext();
+          listen.session++;
+          listen.waitCount = 0;
+          startReading();
         };
       }
 
