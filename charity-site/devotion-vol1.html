@@ -1062,9 +1062,20 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
             try { el = flip.getPage(i).getElement(); } catch (e) { break; }
             const d = pageDay(el);
             if (d === null || d === undefined || isNaN(d) || d !== dayNum) break;
-            if (hasChinese(el)) continue;
-            const t = ((el.querySelector(".bp-body") || el).textContent || "").replace(/\s+/g, " ").trim();
-            if (t) out.push({ page: i, text: t });
+            const body = el.querySelector(".bp-body") || el;
+            const clone = body.cloneNode(true);
+            const caps = clone.querySelectorAll("p");
+            for (let cIdx = 0; cIdx < caps.length; cIdx++) {
+              if ((caps[cIdx].textContent || "").trim() === "Chinese") { caps[cIdx].parentNode.removeChild(caps[cIdx]); }
+            }
+            const t = (clone.textContent || "").replace(/\s+/g, " ").trim();
+            if (!t) continue;
+            const parts = splitLang(t);
+            for (let j = 0; j < parts.length; j++) {
+              const pt = parts[j].text.trim();
+              if (!pt) continue;
+              out.push({ page: i, zh: parts[j].zh, text: pt });
+            }
           }
           return out;
         }
@@ -1077,6 +1088,54 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           listen.running = false; listen.queue = []; listen.idx = 0; listen.auto = false; listen.utter = null;
           try { window.speechSynthesis.cancel(); } catch (e) {}
           setBtn(false);
+        }
+        function isCJK(c) {
+          return /[\u4e00-\u9fff\u3000-\u30ff\uff00-\uffef]/.test(c);
+        }
+        function splitLang(text) {
+          const parts = [];
+          let cur = "", zh = null;
+          for (let i = 0; i < text.length; i++) {
+            const c = text.charAt(i);
+            let strong = null;
+            if (/[a-zA-Z]/.test(c)) strong = false;
+            else if (isCJK(c)) strong = true;
+            if (strong !== null) {
+              if (zh === null) zh = strong;
+              else if (strong !== zh && cur) { parts.push({ zh: zh, text: cur }); cur = ""; zh = strong; }
+            }
+            cur += c;
+          }
+          if (cur) parts.push({ zh: zh === null ? false : zh, text: cur });
+          return parts;
+        }
+        function clearSpeak(s) {
+          s = s.replace(/[\u2018\u2019\u201c\u201d\u00ab\u00bb\u300c\u300d]/g, "'");
+          s = s.replace(/[\u2014\u2013\u2026]/g, " ");
+          s = s.replace(/["'`]/g, "");
+          let out = "";
+          for (let i = 0; i < s.length; i++) {
+            const c = s.charAt(i);
+            if (/[A-Za-z0-9\s]/.test(c)) { out += c; continue; }
+            const prev = s.charAt(i - 1), next = s.charAt(i + 1);
+            if (prev && next && /[0-9]/.test(prev) && /[0-9]/.test(next) && /[:.\-]/.test(c)) { out += c; continue; }
+          }
+          return out.replace(/\s+/g, " ").trim();
+        }
+        function pickZh(voices) {
+          if (!voices.length) return null;
+          const FEMALE = /female|女|woman|girl|普通话|xiaoxiao|xiaoyi|xiaoyan|ting|meijia|huihui|yaoyao|siqi|shu|wan|lihan|yan|yu|jing|shuang|han|qian|xue|ziyu|xiao|mei|ru|aixin|manyi|cangjie/i;
+          const MALE = /male|男|yunxi|yunyang|kangkang|yunjian|zhang|liang|wei|qiang|feng|deyi|tao|jiang|guo/i;
+          let best = null, bestScore = -1;
+          for (let i = 0; i < voices.length; i++) {
+            const v = voices[i];
+            const n = (v.name || "") + " " + (v.localName || "");
+            if (!/^zh/i.test(v.lang || "")) continue;
+            let s = /^zh[-_]?[CcN][Nn]?/i.test(v.lang) ? 2 : 1;
+            if (FEMALE.test(n) && !MALE.test(n)) s += 2;
+            if (s > bestScore) { best = v; bestScore = s; }
+          }
+          return best;
         }
         function fixSpeak(s) {
           s = s.replace(/\b(\d{1,2})[:.]([0-5]\d)\s*([ap]\.?\ *m\.?)\b/gi, function (m, h, mm, a) {
@@ -1093,11 +1152,22 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           const ss = window.speechSynthesis;
           if (!ss) { stop(); return; }
           const item = listen.queue[listen.idx];
-          const u = new SpeechSynthesisUtterance(fixSpeak(item.text));
+          const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
+          const u = new SpeechSynthesisUtterance(text);
           u.rate = 1; u.pitch = 1;
           let voices = [];
-          try { voices = ss.getVoices().filter(function (v) { return /^en/i.test(v.lang); }); } catch (e2) {}
-          if (voices.length) { try { u.voice = pickVoice(voices); } catch (e2) {} }
+          try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
+          if (item.zh) {
+            const zhv = [];
+            for (let i = 0; i < voices.length; i++) { if (/^zh/i.test(voices[i].lang || "")) zhv.push(voices[i]); }
+            const zv = pickZh(zhv);
+            if (zv) { try { u.voice = zv; } catch (e2) {} u.lang = zv.lang; }
+            else { u.lang = "zh-CN"; }
+          } else {
+            const en = [];
+            for (let i = 0; i < voices.length; i++) { if (/^en/i.test(voices[i].lang || "")) en.push(voices[i]); }
+            if (en.length) { try { u.voice = pickVoice(en); } catch (e2) {} }
+          }
           listen.utter = u;
           u.onend = function () {
             if (!listen.running) return;
