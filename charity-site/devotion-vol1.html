@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     #book { max-width: calc(100vw - 120px) !important; }
+    #listenBtn { background:var(--gold, #ffc93c); color:#211114; font-weight:700; padding:8px 14px; border:none; border-radius:8px; cursor:pointer; }
+    #listenBtn.playing { background:var(--chili, #d94a5d); color:#fff; }
   </style>
   <link rel="icon" href="../logo.png" />
 </head>
@@ -425,6 +427,7 @@
       <button type="button" onclick="flipPrev()" aria-label="Previous page">&#9664; Previous</button>
       <span id="flipCounter">Page 1</span>
       <button type="button" onclick="flipNext()" aria-label="Next page">Next &#9654;</button>
+      <button type="button" id="listenBtn" onclick="toggleListen()" aria-label="Listen to this day">&#128266; Listen</button>
     </div>
     <div class="flip-hint">Drag the page corners to turn &middot; Use your keyboard arrow keys</div>
 
@@ -1034,6 +1037,123 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
         return pageFlip;
       }
 
+      function listenHook(flip) {
+        let listen = { running:false, queue:[], idx:0, auto:false, utter:null };
+        function pageDay(el) {
+          const h = el.querySelector(".bp-head b");
+          return h ? parseInt((h.textContent || "").replace(/\D+/g, ""), 10) : null;
+        }
+        function hasChinese(el) {
+          return /[\u4e00-\u9fff]/.test((el.querySelector(".bp-body") || el).textContent || "");
+        }
+        function collectDay(idx) {
+          const n = flip.getPageCount();
+          let dayNum = null, start = idx;
+          for (let i = idx; i >= 0; i--) {
+            let d;
+            try { d = pageDay(flip.getPage(i).getElement()); } catch (e) { break; }
+            if (dayNum === null) { if (d === null || d === undefined || isNaN(d)) return []; dayNum = d; }
+            if (d !== dayNum) break;
+            start = i;
+          }
+          const out = [];
+          for (let i = start; i < n; i++) {
+            let el;
+            try { el = flip.getPage(i).getElement(); } catch (e) { break; }
+            const d = pageDay(el);
+            if (d === null || d === undefined || isNaN(d) || d !== dayNum) break;
+            if (hasChinese(el)) continue;
+            const t = ((el.querySelector(".bp-body") || el).textContent || "").replace(/\s+/g, " ").trim();
+            if (t) out.push({ page: i, text: t });
+          }
+          return out;
+        }
+        function setBtn(on) {
+          const b = document.getElementById("listenBtn");
+          if (b) { b.innerHTML = on ? "&#9208; Stop" : "&#128266; Listen"; b.classList.toggle("playing", !!on); }
+        }
+        function stop() {
+          listen.running = false; listen.queue = []; listen.idx = 0; listen.auto = false; listen.utter = null;
+          try { window.speechSynthesis.cancel(); } catch (e) {}
+          setBtn(false);
+        }
+        function readNext() {
+          if (!listen.running) return;
+          if (listen.idx >= listen.queue.length) { stop(); return; }
+          const ss = window.speechSynthesis;
+          if (!ss) { stop(); return; }
+          const item = listen.queue[listen.idx];
+          const u = new SpeechSynthesisUtterance(item.text);
+          u.rate = 1; u.pitch = 1;
+          let voices = [];
+          try { voices = ss.getVoices().filter(function (v) { return /^en/i.test(v.lang); }); } catch (e2) {}
+          if (voices.length) { try { u.voice = voices[0]; } catch (e2) {} }
+          listen.utter = u;
+          u.onend = function () {
+            if (!listen.running) return;
+            listen.idx++;
+            if (listen.idx < listen.queue.length) {
+              const target = listen.queue[listen.idx].page;
+              if (target !== flip.getCurrentPageIndex()) { listen.auto = true; flip.turnToPage(target); }
+            }
+            readNext();
+          };
+          u.onerror = function () { stop(); };
+          try { ss.speak(u); } catch (e) { stop(); }
+        }
+        flip.on("flip", function () {
+          if (listen.running && !listen.auto) stop();
+          listen.auto = false;
+        });
+        function warmVoice() {
+          try {
+            var ss = window.speechSynthesis;
+            if (!ss || typeof SpeechSynthesisUtterance !== "function") return;
+            var u = new SpeechSynthesisUtterance(" ");
+            u.volume = 0;
+            ss.speak(u); ss.cancel();
+          } catch (e3) {}
+        }
+        function firstEnglishPage() {
+          const n = flip.getPageCount();
+          for (let i = 0; i < n; i++) {
+            let el;
+            try { el = flip.getPage(i).getElement(); } catch (e) { break; }
+            const d = pageDay(el);
+            if (d === null || d === undefined || isNaN(d)) continue;
+            if (hasChinese(el)) continue;
+            if (((el.querySelector(".bp-body") || el).textContent || "").trim()) return i;
+          }
+          return -1;
+        }
+        window.toggleListen = function () {
+          if (!flip) return;
+          if (listen.running) { stop(); return; }
+          warmVoice();
+          let t = collectDay(flip.getCurrentPageIndex());
+          if (!t.length) {
+            const start = firstEnglishPage();
+            if (start < 0) return;
+            if (start !== flip.getCurrentPageIndex()) {
+              listen.auto = true;
+              flip.turnToPage(start);
+            }
+            setTimeout(function () {
+              listen.auto = false;
+              t = collectDay(start);
+              if (!t.length) return;
+              listen.queue = t; listen.idx = 0; listen.running = true;
+              setBtn(true);
+              readNext();
+            }, 1000);
+            return;
+          }
+          listen.queue = t; listen.idx = 0; listen.running = true;
+          setBtn(true);
+          readNext();
+        };
+      }
+
       function init() {
         if (flipInstance && typeof flipInstance.destroy === "function") {
           try { flipInstance.destroy(); } catch (err) {}
@@ -1041,6 +1161,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
         const small = window.matchMedia("(max-width: 760px)").matches;
         bookEl.innerHTML = (small && phonePagesHTML) ? phonePagesHTML : pagesHTML;
         flipInstance = startFlip();
+        listenHook(flipInstance);
       }
 
       if (typeof St !== "undefined" && St.PageFlip) {
