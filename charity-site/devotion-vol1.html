@@ -1078,13 +1078,22 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           try { window.speechSynthesis.cancel(); } catch (e) {}
           setBtn(false);
         }
+        function fixSpeak(s) {
+          s = s.replace(/\b(\d{1,2})[:.]([0-5]\d)\s*([ap]\.?\ *m\.?)\b/gi, function (m, h, mm, a) {
+            return h + ":" + mm + " " + a.replace(/\./g, "").toLowerCase();
+          });
+          s = s.replace(/\b(\d{1,2})([0-5]\d)\s*([ap]\.?\ *m\.?)\b/gi, function (m, h, mm, a) {
+            return h + ":" + mm + " " + a.replace(/\./g, "").toLowerCase();
+          });
+          return s;
+        }
         function readNext() {
           if (!listen.running) return;
           if (listen.idx >= listen.queue.length) { stop(); return; }
           const ss = window.speechSynthesis;
           if (!ss) { stop(); return; }
           const item = listen.queue[listen.idx];
-          const u = new SpeechSynthesisUtterance(item.text);
+          const u = new SpeechSynthesisUtterance(fixSpeak(item.text));
           u.rate = 1; u.pitch = 1;
           let voices = [];
           try { voices = ss.getVoices().filter(function (v) { return /^en/i.test(v.lang); }); } catch (e2) {}
