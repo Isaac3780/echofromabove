@@ -12,6 +12,10 @@
     #book { max-width: calc(100vw - 120px) !important; }
     #listenBtn { background:var(--gold, #ffc93c); color:#211114; font-weight:700; padding:8px 14px; border:none; border-radius:8px; cursor:pointer; }
     #listenBtn.playing { background:var(--chili, #d94a5d); color:#fff; }
+    #listenLang { background:rgba(255,255,255,0.07); color:#cfe3f5; border:1px solid rgba(255,255,255,0.28); border-radius:8px; padding:8px 8px; font-size:0.85rem; cursor:pointer; }
+    #listenLang:focus { outline:2px solid var(--gold, #ffc93c); }
+    #listenLang option { color:#111; background:#fff; }
+    .listen-ctl { display:inline-flex; align-items:center; gap:8px; }
   </style>
   <link rel="icon" href="../logo.png" />
 </head>
@@ -427,7 +431,14 @@
       <button type="button" onclick="flipPrev()" aria-label="Previous page">&#9664; Previous</button>
       <span id="flipCounter">Page 1</span>
       <button type="button" onclick="flipNext()" aria-label="Next page">Next &#9654;</button>
-      <button type="button" id="listenBtn" onclick="toggleListen()" aria-label="Listen to this day">&#128266; Listen</button>
+      <span class="listen-ctl">
+        <button type="button" id="listenBtn" onclick="toggleListen()" aria-label="Listen to this day">&#128266; Listen</button>
+        <select id="listenLang" title="Choose what to read" aria-label="Choose what to read aloud">
+          <option value="all">EN + 中文</option>
+          <option value="en">English only</option>
+          <option value="zh">中文 only</option>
+        </select>
+      </span>
     </div>
     <div class="flip-hint">Drag the page corners to turn &middot; Use your keyboard arrow keys</div>
 
@@ -1252,11 +1263,21 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           }
           collectAndPlay();
         }
+        function filterLang(items, lang) {
+          if (lang === "en" || lang === "zh") {
+            const keep = [];
+            for (let i = 0; i < items.length; i++) { if (!!items[i].zh === (lang === "zh")) keep.push(items[i]); }
+            return keep;
+          }
+          return items;
+        }
         function collectAndPlay() {
           const want = desiredStartPage();
           window.__dvDay = null;
-          let t = collectDay(want);
+          const lang = (document.getElementById("listenLang") || { value: "all" }).value || "all";
+          let t = filterLang(collectDay(want), lang);
           if (!t.length) {
+            if (lang === "zh") { setBtn(false); return; }
             const start = firstEnglishPage();
             if (start < 0) { setBtn(false); return; }
             if (start !== want) {
@@ -1265,7 +1286,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
               startReading();
               return;
             }
-            t = collectDay(start);
+            t = filterLang(collectDay(start), lang);
           }
           if (!t.length) { setBtn(false); return; }
           listen.queue = t; listen.idx = 0; listen.running = true;
