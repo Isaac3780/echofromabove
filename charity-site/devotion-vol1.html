@@ -1110,17 +1110,14 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           return parts;
         }
         function clearSpeak(s) {
-          s = s.replace(/[\u2018\u2019\u201c\u201d\u00ab\u00bb\u300c\u300d]/g, "'");
-          s = s.replace(/[\u2014\u2013\u2026]/g, " ");
-          s = s.replace(/["'`]/g, "");
-          let out = "";
-          for (let i = 0; i < s.length; i++) {
-            const c = s.charAt(i);
-            if (/[A-Za-z0-9\s]/.test(c)) { out += c; continue; }
-            const prev = s.charAt(i - 1), next = s.charAt(i + 1);
-            if (prev && next && /[0-9]/.test(prev) && /[0-9]/.test(next) && /[:.\-]/.test(c)) { out += c; continue; }
-          }
-          return out.replace(/\s+/g, " ").trim();
+          s = s.replace(/[\u201c\u201d\u00ab\u00bb]/g, '"');
+          s = s.replace(/[\u2018\u2019]/g, "'");
+          s = s.replace(/[\u2014\u2013\u2026]+/g, ", ");
+          s = s.replace(/[()[\]{}*\/\\@#~^_=+<>&|]/g, " ");
+          s = s.replace(/"([^"]*)"/g, "$1");
+          s = s.replace(/[']/g, "");
+          s = s.replace(/([.,!?:;]+)(?=\s|$)/g, function (m) { return ","; });
+          return s.replace(/,+/g, ",").replace(/\s+/g, " ").trim();
         }
         function pickZh(voices) {
           if (!voices.length) return null;
@@ -1154,7 +1151,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           const item = listen.queue[listen.idx];
           const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
           const u = new SpeechSynthesisUtterance(text);
-          u.rate = 1; u.pitch = 1;
+          u.rate = item.zh ? 1 : 0.95; u.pitch = 1;
           let voices = [];
           try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
           if (item.zh) {
