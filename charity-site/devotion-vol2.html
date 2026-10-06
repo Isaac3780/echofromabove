@@ -10,6 +10,12 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     #book { max-width: calc(100vw - 120px) !important; }
+    #listenBtn { background:var(--gold, #ffc93c); color:#211114; font-weight:700; padding:8px 14px; border:none; border-radius:8px; cursor:pointer; }
+    #listenBtn.playing { background:var(--chili, #d94a5d); color:#fff; }
+    #listenLang { background:rgba(255,255,255,0.07); color:#cfe3f5; border:1px solid rgba(255,255,255,0.28); border-radius:8px; padding:8px 8px; font-size:0.85rem; cursor:pointer; }
+    #listenLang:focus { outline:2px solid var(--gold, #ffc93c); }
+    #listenLang option { color:#111; background:#fff; }
+    .listen-ctl { display:inline-flex; align-items:center; gap:8px; }
   </style>
   <link rel="icon" href="../logo.png" />
 </head>
@@ -370,6 +376,14 @@
       <button type="button" onclick="flipPrev()" aria-label="Previous page">&#9664; Previous</button>
       <span id="flipCounter">Page 1</span>
       <button type="button" onclick="flipNext()" aria-label="Next page">Next &#9654;</button>
+      <span class="listen-ctl">
+        <button type="button" id="listenBtn" onclick="toggleListen()" aria-label="Listen to this day">&#128266; Listen</button>
+        <select id="listenLang" title="Choose what to read" aria-label="Choose what to read aloud">
+          <option value="all">EN + 中文</option>
+          <option value="en">English only</option>
+          <option value="zh">中文 only</option>
+        </select>
+      </span>
     </div>
     <div class="flip-hint">Drag the page corners to turn &middot; Use your keyboard arrow keys</div>
 
@@ -917,6 +931,261 @@ window.PHONE_DAY_INDEX = {101:1,102:5,103:9,104:13,105:18,106:22,107:27,108:31,1
         return pageFlip;
       }
 
+      function listenHook(flip) {
+        let listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0, waitCount:0 };
+        function pageDay(el) {
+          const h = el.querySelector(".bp-head b");
+          return h ? parseInt((h.textContent || "").replace(/\D+/g, ""), 10) : null;
+        }
+        function hasChinese(el) {
+          return /[\u4e00-\u9fff]/.test((el.querySelector(".bp-body") || el).textContent || "");
+        }
+        function collectDay(idx) {
+          const n = flip.getPageCount();
+          let dayNum = null, start = idx;
+          for (let i = idx; i >= 0; i--) {
+            let d;
+            try { d = pageDay(flip.getPage(i).getElement()); } catch (e) { break; }
+            if (dayNum === null) { if (d === null || d === undefined || isNaN(d)) return []; dayNum = d; }
+            if (d !== dayNum) break;
+            start = i;
+          }
+          const out = [];
+          for (let i = start; i < n; i++) {
+            let el;
+            try { el = flip.getPage(i).getElement(); } catch (e) { break; }
+            const d = pageDay(el);
+            if (d === null || d === undefined || isNaN(d) || d !== dayNum) break;
+            const body = el.querySelector(".bp-body") || el;
+            const clone = body.cloneNode(true);
+            const caps = clone.querySelectorAll("p");
+            for (let cIdx = 0; cIdx < caps.length; cIdx++) {
+              if ((caps[cIdx].textContent || "").trim() === "Chinese") { caps[cIdx].parentNode.removeChild(caps[cIdx]); }
+            }
+            const t = (clone.textContent || "").replace(/\s+/g, " ").trim();
+            if (!t) continue;
+            const parts = splitLang(t);
+            for (let j = 0; j < parts.length; j++) {
+              const pt = parts[j].text.trim();
+              if (!pt) continue;
+              out.push({ page: i, zh: parts[j].zh, text: pt });
+            }
+          }
+          return out;
+        }
+        function setBtn(on) {
+          const b = document.getElementById("listenBtn");
+          if (b) { b.innerHTML = on ? "&#9208; Stop" : "&#128266; Listen"; b.classList.toggle("playing", !!on); }
+        }
+        function stop() {
+          listen.session++;
+          listen.running = false; listen.queue = []; listen.idx = 0; listen.auto = false; listen.utter = null;
+          try { window.speechSynthesis.cancel(); } catch (e) {}
+          setBtn(false);
+        }
+        function isCJK(c) {
+          return /[\u4e00-\u9fff\u3000-\u30ff\uff00-\uffef]/.test(c);
+        }
+        function splitLang(text) {
+          const parts = [];
+          let cur = "", zh = null;
+          for (let i = 0; i < text.length; i++) {
+            const c = text.charAt(i);
+            let strong = null;
+            if (/[a-zA-Z]/.test(c)) strong = false;
+            else if (isCJK(c)) strong = true;
+            if (strong !== null) {
+              if (zh === null) zh = strong;
+              else if (strong !== zh && cur) { parts.push({ zh: zh, text: cur }); cur = ""; zh = strong; }
+            }
+            cur += c;
+          }
+          if (cur) parts.push({ zh: zh === null ? false : zh, text: cur });
+          return parts;
+        }
+        function clearSpeak(s) {
+          s = s.replace(/[\u201c\u201d\u00ab\u00bb]/g, '"');
+          s = s.replace(/[\u2018\u2019]/g, "'");
+          s = s.replace(/[\u2014\u2013\u2026]+/g, ", ");
+          s = s.replace(/[()[\]{}*\/\\@#~^_=+<>&|]/g, " ");
+          s = s.replace(/"([^"]*)"/g, "$1");
+          s = s.replace(/[']/g, "");
+          s = s.replace(/([.,!?:;]+)(?=\s|$)/g, function (m) { return ","; });
+          return s.replace(/,+/g, ",").replace(/\s+/g, " ").trim();
+        }
+        function pickZh(voices) {
+          if (!voices.length) return null;
+          const FEMALE = /female|女|woman|girl|普通话|xiaoxiao|xiaoyi|xiaoyan|ting|meijia|huihui|yaoyao|siqi|shu|wan|lihan|yan|yu|jing|shuang|han|qian|xue|ziyu|xiao|mei|ru|aixin|manyi|cangjie/i;
+          const MALE = /male|男|yunxi|yunyang|kangkang|yunjian|zhang|liang|wei|qiang|feng|deyi|tao|jiang|guo/i;
+          let best = null, bestScore = -1;
+          for (let i = 0; i < voices.length; i++) {
+            const v = voices[i];
+            const n = (v.name || "") + " " + (v.localName || "");
+            if (!/^zh/i.test(v.lang || "")) continue;
+            let s = /^zh[-_]?[CcN][Nn]?/i.test(v.lang) ? 2 : 1;
+            if (FEMALE.test(n) && !MALE.test(n)) s += 2;
+            if (s > bestScore) { best = v; bestScore = s; }
+          }
+          return best;
+        }
+        function fixSpeak(s) {
+          s = s.replace(/\b(\d{1,2})[:.]([0-5]\d)\s*([ap]\.?\ *m\.?)\b/gi, function (m, h, mm, a) {
+            return h + ":" + mm + " " + a.replace(/\./g, "").toLowerCase();
+          });
+          s = s.replace(/\b(\d{1,2})([0-5]\d)\s*([ap]\.?\ *m\.?)\b/gi, function (m, h, mm, a) {
+            return h + ":" + mm + " " + a.replace(/\./g, "").toLowerCase();
+          });
+          return s;
+        }
+        function readNext() {
+          if (!listen.running) return;
+          if (listen.idx >= listen.queue.length) { stop(); return; }
+          const ss = window.speechSynthesis;
+          if (!ss) { stop(); return; }
+          const item = listen.queue[listen.idx];
+          const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
+          const u = new SpeechSynthesisUtterance(text);
+          u.rate = item.zh ? 1 : 0.95; u.pitch = 1;
+          let voices = [];
+          try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
+          if (item.zh) {
+            const zhv = [];
+            for (let i = 0; i < voices.length; i++) { if (/^zh/i.test(voices[i].lang || "")) zhv.push(voices[i]); }
+            const zv = pickZh(zhv);
+            if (zv) { try { u.voice = zv; } catch (e2) {} u.lang = zv.lang; }
+            else { u.lang = "zh-CN"; }
+          } else {
+            const en = [];
+            for (let i = 0; i < voices.length; i++) { if (/^en/i.test(voices[i].lang || "")) en.push(voices[i]); }
+            if (en.length) { try { u.voice = pickVoice(en); } catch (e2) {} }
+          }
+          listen.utter = u;
+          u.onend = function () {
+            if (!listen.running) return;
+            listen.idx++;
+            if (listen.idx < listen.queue.length) {
+              const target = listen.queue[listen.idx].page;
+              if (target !== flip.getCurrentPageIndex()) { listen.auto = true; flip.turnToPage(target); }
+            }
+            readNext();
+          };
+          u.onerror = function () { stop(); };
+          try { ss.speak(u); } catch (e) { stop(); }
+        }
+        flip.on("flip", function () {
+          if (listen.running && !listen.auto) stop();
+          listen.auto = false;
+        });
+        window.__dvDay = null;
+        if (typeof window.flipToDay === "function") {
+          const orig = window.flipToDay;
+          window.flipToDay = function (n) { window.__dvDay = n; orig(n); };
+        }
+        function warmVoice() {
+          try {
+            var ss = window.speechSynthesis;
+            if (!ss || typeof SpeechSynthesisUtterance !== "function") return;
+            var u = new SpeechSynthesisUtterance(" ");
+            u.volume = 0;
+            ss.speak(u); ss.cancel();
+          } catch (e3) {}
+        }
+        function pickVoice(voices) {
+          if (!voices.length) return null;
+          var FEMALE = /female|girl|jenny|aria|ava|allison|samantha|zoe|karen|serena|tessa|moira|fiona|michelle|susan|zira|hazel|natalie|amy|anna|katya|libby|sonia|kathy|virginia|olga|natasha|emily|evelyn|helena|florence|selena|christina|lori|bella|poppy|sally|lucy|webria|marissa/i;
+          var MALE = /\bmale\b|daniel|george|guy|darren|ryan|david|dave|thomas|oliver|paul|russell|mark|eric|james|stephen|ronald|bernie|william|michael|matthew|charles|christopher|brian|richard|trevor|graham|leslie|jurgen|yuri|miguel|ramon|diego|luca|arjun|tomas|carl|philip|peter|kenny|fred|jose|javier|owen|alex|sam\b/i;
+          for (let i = 0; i < voices.length; i++) {
+            const n = voices[i].name || "";
+            if (FEMALE.test(n) && !MALE.test(n)) return voices[i];
+          }
+          for (let j = 0; j < voices.length; j++) {
+            const m = voices[j].name || "";
+            if (!MALE.test(m)) return voices[j];
+          }
+          return voices[0];
+        }
+        function bookReady() {
+          try {
+            const st = flip.getState();
+            return st === "read" || st === undefined || st === null;
+          } catch (e) { return true; }
+        }
+        function desiredStartPage() {
+          const c = flip.getCurrentPageIndex();
+          const n = flip.getPageCount();
+          const vis = [];
+          if (c >= 0 && c < n) vis.push(c);
+          if (c + 1 < n) vis.push(c + 1);
+          if (window.__dvDay) {
+            for (let i = 0; i < vis.length; i++) {
+              let el;
+              try { el = flip.getPage(vis[i]).getElement(); } catch (e) { continue; }
+              if (pageDay(el) === window.__dvDay) return vis[i];
+            }
+          }
+          return c;
+        }
+        function firstEnglishPage() {
+          const n = flip.getPageCount();
+          for (let i = 0; i < n; i++) {
+            let el;
+            try { el = flip.getPage(i).getElement(); } catch (e) { break; }
+            const d = pageDay(el);
+            if (d === null || d === undefined || isNaN(d)) continue;
+            if (hasChinese(el)) continue;
+            if (((el.querySelector(".bp-body") || el).textContent || "").trim()) return i;
+          }
+          return -1;
+        }
+        function startReading() {
+          if (!bookReady()) {
+            if (listen.waitCount++ > 120) { listen.waitCount = 0; collectAndPlay(); return; }
+            const my = listen.session;
+            setTimeout(function () { if (listen.session === my) startReading(); }, 100);
+            return;
+          }
+          collectAndPlay();
+        }
+        function filterLang(items, lang) {
+          if (lang === "en" || lang === "zh") {
+            const keep = [];
+            for (let i = 0; i < items.length; i++) { if (!!items[i].zh === (lang === "zh")) keep.push(items[i]); }
+            return keep;
+          }
+          return items;
+        }
+        function collectAndPlay() {
+          const want = desiredStartPage();
+          window.__dvDay = null;
+          const lang = (document.getElementById("listenLang") || { value: "all" }).value || "all";
+          let t = filterLang(collectDay(want), lang);
+          if (!t.length) {
+            if (lang === "zh") { setBtn(false); return; }
+            const start = firstEnglishPage();
+            if (start < 0) { setBtn(false); return; }
+            if (start !== want) {
+              listen.auto = true;
+              flip.turnToPage(start);
+              startReading();
+              return;
+            }
+            t = filterLang(collectDay(start), lang);
+          }
+          if (!t.length) { setBtn(false); return; }
+          listen.queue = t; listen.idx = 0; listen.running = true;
+          setBtn(true);
+          readNext();
+        }
+        window.toggleListen = function () {
+          if (!flip) return;
+          if (listen.running) { stop(); return; }
+          warmVoice();
+          listen.session++;
+          listen.waitCount = 0;
+          startReading();
+        };
+      }
+
       function init() {
         if (flipInstance && typeof flipInstance.destroy === "function") {
           try { flipInstance.destroy(); } catch (err) {}
@@ -924,6 +1193,7 @@ window.PHONE_DAY_INDEX = {101:1,102:5,103:9,104:13,105:18,106:22,107:27,108:31,1
         const small = window.matchMedia("(max-width: 760px)").matches;
         bookEl.innerHTML = (small && phonePagesHTML) ? phonePagesHTML : pagesHTML;
         flipInstance = startFlip();
+        listenHook(flipInstance);
       }
 
       if (typeof St !== "undefined" && St.PageFlip) {
