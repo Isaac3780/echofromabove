@@ -1166,7 +1166,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           }
           const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
           const u = new SpeechSynthesisUtterance(text);
-          u.rate = item.zh ? 1 : 0.5; u.pitch = 1;
+          u.rate = item.zh ? 1 : 0.625; u.pitch = 1;
           let voices = [];
           try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
           if (item.zh) {
