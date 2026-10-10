@@ -1049,7 +1049,7 @@ window.PHONE_DAY_INDEX = {101:1,102:5,103:9,104:13,105:18,106:22,107:27,108:31,1
           }
           const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
           const u = new SpeechSynthesisUtterance(text);
-          u.rate = item.zh ? 1 : 0.95; u.pitch = 1;
+          u.rate = item.zh ? 1 : 0.75; u.pitch = 1;
           let voices = [];
           try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
           if (item.zh) {
