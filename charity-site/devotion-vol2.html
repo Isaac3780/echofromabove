@@ -1047,7 +1047,7 @@ window.PHONE_DAY_INDEX = {101:1,102:5,103:9,104:13,105:18,106:22,107:27,108:31,1
             listen.auto = true;
             try { flip.turnToPage(item.page); } catch (e) {}
           }
-          const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
+          const text = (item.zh ? item.text : clearSpeak(fixSpeak(item.text))).replace(/[.,:;]+/g, " ").replace(/\s+/g, " ").trim();
           const u = new SpeechSynthesisUtterance(text);
           u.rate = item.zh ? 1 : 0.625; u.pitch = 1;
           let voices = [];
