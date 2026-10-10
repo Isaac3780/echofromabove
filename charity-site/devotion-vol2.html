@@ -1043,6 +1043,10 @@ window.PHONE_DAY_INDEX = {101:1,102:5,103:9,104:13,105:18,106:22,107:27,108:31,1
           const ss = window.speechSynthesis;
           if (!ss) { stop(); return; }
           const item = listen.queue[listen.idx];
+          if (listen.idx === 0 && item.page != null && item.page !== flip.getCurrentPageIndex()) {
+            listen.auto = true;
+            try { flip.turnToPage(item.page); } catch (e) {}
+          }
           const text = item.zh ? item.text : clearSpeak(fixSpeak(item.text));
           const u = new SpeechSynthesisUtterance(text);
           u.rate = item.zh ? 1 : 0.95; u.pitch = 1;
