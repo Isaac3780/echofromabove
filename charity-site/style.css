@@ -630,6 +630,8 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
 }
 .bookpage .verse .ref { display: block; margin-top: 4px; font-style: normal; font-weight: 800; color: var(--green); letter-spacing: 1px; font-size: 0.64rem; text-transform: uppercase; }
 .bookpage .verse.zh { background: #eff8f3; border-left-color: var(--green); }
+.vol2 .bookpage .verse { background: #eef4fb; border-left-color: #2f6fb0; }
+.vol2 .bookpage .verse.zh { background: #fdeef0; border-left-color: #d94a5d; }
 .bookpage .memverse {
   margin: 4px 2px 2px; padding: 10px 14px; text-align: center; background: var(--navy); color: #fff;
   border-radius: 12px; font-family: var(--font-head); font-size: 0.9rem; line-height: 1.45;
