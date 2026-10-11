@@ -469,6 +469,7 @@
 
       function listenHook(flip) {
         var listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0 };
+        var VOICE_GENDER = "female";
         function pageText(el) {
           var body = el.querySelector(".bp-body");
           if (!body) return "";
@@ -507,17 +508,19 @@
           });
           return s;
         }
-        function pickVoice(voices) {
+        function pickVoice(voices, want) {
           if (!voices.length) return null;
           var FEMALE = /female|girl|jenny|aria|ava|allison|samantha|zoe|karen|serena|tessa|moira|fiona|michelle|susan|zira|hazel|natalie|amy|anna|katya|libby|sonia|kathy|virginia|olga|natasha|emily|evelyn|helena|florence|selena|christina|lori|bella|poppy|sally|lucy|webria|marissa/i;
           var MALE = /\bmale\b|daniel|george|guy|darren|ryan|david|dave|thomas|oliver|paul|russell|mark|eric|james|stephen|ronald|bernie|william|michael|matthew|charles|christopher|brian|richard|trevor|graham|leslie|jurgen|yuri|miguel|ramon|diego|luca|arjun|tomas|carl|philip|peter|kenny|fred|jose|javier|owen|alex|sam\b/i;
+          function isFem(v) { var n = v.name || ""; return FEMALE.test(n) && !MALE.test(n); }
+          function isMal(v) { var n = v.name || ""; return MALE.test(n) && !FEMALE.test(n); }
+          var firstPick = (want === "male") ? isMal : isFem;
+          var secondPick = (want === "male") ? isFem : isMal;
           for (var i = 0; i < voices.length; i++) {
-            var n = voices[i].name || "";
-            if (FEMALE.test(n) && !MALE.test(n)) return voices[i];
+            if (firstPick(voices[i])) return voices[i];
           }
           for (var j = 0; j < voices.length; j++) {
-            var m = voices[j].name || "";
-            if (!MALE.test(m)) return voices[j];
+            if (secondPick(voices[j])) return voices[j];
           }
           return voices[0];
         }
@@ -538,7 +541,7 @@
           try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
           var en = [];
           for (var i = 0; i < voices.length; i++) { if (/^en/i.test(voices[i].lang || "")) en.push(voices[i]); }
-          if (en.length) { try { u.voice = pickVoice(en); } catch (e2) {} }
+          if (en.length) { try { u.voice = pickVoice(en, VOICE_GENDER); } catch (e2) {} }
           if (u.voice && u.voice.lang) { u.lang = u.voice.lang; }
           listen.utter = u;
           u.onend = function () {
