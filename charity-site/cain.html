@@ -548,7 +548,7 @@
           }
           var text = clearSpeak(fixSpeak(item.text)).replace(/[.,:;]+/g, " ").replace(/\s+/g, " ").trim();
           var u = new SpeechSynthesisUtterance(text);
-          u.rate = 0.75; u.pitch = 1;
+          u.rate = 0.875; u.pitch = 1;
           var voices = [];
           try { voices = ss.getVoices() || []; } catch (e2) { voices = []; }
           var en = [];
