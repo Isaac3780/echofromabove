@@ -667,6 +667,8 @@ footer { background: var(--dark); color: rgba(255,255,255,0.8); padding: 70px 22
   font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; transition: 0.2s;
 }
 .flip-toolbar button:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+#listenBtn { background: var(--gold, #ffc93c); color: #211114; font-weight: 700; padding: 8px 14px; border: none; border-radius: 8px; cursor: pointer; }
+#listenBtn.playing { background: var(--chili, #d94a5d); color: #fff; }
 #flipCounter { min-width: 132px; text-align: center; font-weight: 700; letter-spacing: 1px; }
 .flip-hint { margin-top: 10px; text-align: center; color: #9db9d2; font-size: 0.74rem; letter-spacing: 2px; text-transform: uppercase; }
 .flip-cta { text-align: center; margin-top: 20px; }
