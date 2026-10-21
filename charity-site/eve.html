@@ -468,7 +468,7 @@
       }
 
       function listenHook(flip) {
-        var listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0 };
+        var listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0, nudge:null };
         var VOICE_GENDER = "male";
         function pageText(el) {
           var body = el.querySelector(".bp-body");
@@ -486,6 +486,7 @@
         function stop() {
           listen.session++;
           listen.running = false; listen.queue = []; listen.idx = 0; listen.auto = false; listen.utter = null;
+          clearNudge();
           try { window.speechSynthesis.cancel(); } catch (e) {}
           setBtn(false);
         }
@@ -507,6 +508,38 @@
             return h + ":" + mm + " " + a.replace(/\./g, "").toLowerCase();
           });
           return s;
+        }
+        var _voiceCache = [];
+        function loadVoices() {
+          try { _voiceCache = (window.speechSynthesis && window.speechSynthesis.getVoices()) || []; } catch (e) { _voiceCache = []; }
+          return _voiceCache;
+        }
+        function ensureVoices(cb) {
+          if (typeof window.speechSynthesis === "undefined") { cb(); return; }
+          loadVoices();
+          if (_voiceCache.length) { cb(); return; }
+          var done = false;
+          var finish = function () {
+            if (done) return; done = true;
+            loadVoices();
+            try { window.speechSynthesis.onvoiceschanged = null; } catch (e) {}
+            cb();
+          };
+          try { window.speechSynthesis.onvoiceschanged = finish; } catch (e) {}
+          try { window.speechSynthesis.addEventListener("voiceschanged", finish); } catch (e) {}
+          setTimeout(finish, 1500);
+        }
+        function startNudge() {
+          clearNudge();
+          listen.nudge = setInterval(function () {
+            try {
+              var ss = window.speechSynthesis;
+              if (listen.running && ss && ss.speaking) { ss.resume(); }
+            } catch (e) {}
+          }, 8000);
+        }
+        function clearNudge() {
+          if (listen.nudge) { clearInterval(listen.nudge); listen.nudge = null; }
         }
         function pickVoice(voices, want) {
           if (!voices.length) return null;
@@ -546,6 +579,7 @@
           listen.utter = u;
           u.onend = function () {
             if (!listen.running) return;
+            clearNudge();
             listen.idx++;
             if (listen.idx < listen.queue.length) {
               var target = listen.queue[listen.idx].page;
@@ -553,7 +587,8 @@
             }
             readNext();
           };
-          u.onerror = function () { stop(); };
+          u.onerror = function () { clearNudge(); stop(); };
+          startNudge();
           try { ss.speak(u); } catch (e) { stop(); }
         }
         flip.on("flip", function () {
@@ -569,6 +604,19 @@
             ss.speak(u); ss.cancel();
           } catch (e3) {}
         }
+        function chunkText(t, max) {
+          if (!t || t.length <= max) { return [t]; }
+          var parts = t.split(/(?<=[.!?。！？;；])\s*/);
+          var out = [], cur = "";
+          for (var i = 0; i < parts.length; i++) {
+            var s = parts[i];
+            if (!s) { continue; }
+            if (cur && (cur.length + s.length + 1) > max) { out.push(cur); cur = s; }
+            else { cur = cur ? (cur + " " + s) : s; }
+          }
+          if (cur) { out.push(cur); }
+          return out.length ? out : [t];
+        }
         function collectFrom(fromIdx) {
           var n = flip.getPageCount();
           var out = [];
@@ -577,7 +625,10 @@
             try { el = flip.getPage(i).getElement(); } catch (e) { break; }
             var t = pageText(el);
             if (!t) continue;
-            out.push({ page: i, text: t });
+            var _ck = chunkText(t, 240);
+            for (var _k = 0; _k < _ck.length; _k++) {
+              if (_ck[_k]) { out.push({ page: i, text: _ck[_k] }); }
+            }
           }
           return out;
         }
@@ -622,7 +673,7 @@
           if (listen.running) { stop(); return; }
           warmVoice();
           listen.session++;
-          startReading();
+          ensureVoices(function () { startReading(); });
         };
       }
       function init() {
