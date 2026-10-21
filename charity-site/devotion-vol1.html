@@ -1049,13 +1049,26 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
       }
 
       function listenHook(flip) {
-        let listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0, waitCount:0 };
+        let listen = { running:false, queue:[], idx:0, auto:false, utter:null, session:0, waitCount:0, nudge:null };
         function pageDay(el) {
           const h = el.querySelector(".bp-head b");
           return h ? parseInt((h.textContent || "").replace(/\D+/g, ""), 10) : null;
         }
         function hasChinese(el) {
           return /[\u4e00-\u9fff]/.test((el.querySelector(".bp-body") || el).textContent || "");
+        }
+        function chunkText(t, max) {
+          if (!t || t.length <= max) { return [t]; }
+          var parts = t.split(/(?<=[.!?。！？;；])\s*/);
+          var out = [], cur = "";
+          for (var i = 0; i < parts.length; i++) {
+            var s = parts[i];
+            if (!s) { continue; }
+            if (cur && (cur.length + s.length + 1) > max) { out.push(cur); cur = s; }
+            else { cur = cur ? (cur + " " + s) : s; }
+          }
+          if (cur) { out.push(cur); }
+          return out.length ? out : [t];
         }
         function collectDay(idx) {
           const n = flip.getPageCount();
@@ -1085,7 +1098,10 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
             for (let j = 0; j < parts.length; j++) {
               const pt = parts[j].text.trim();
               if (!pt) continue;
-              out.push({ page: i, day: dayNum, zh: parts[j].zh, text: pt });
+              const _ck = chunkText(pt, 240);
+              for (let _k = 0; _k < _ck.length; _k++) {
+                if (_ck[_k]) { out.push({ page: i, day: dayNum, zh: parts[j].zh, text: _ck[_k] }); }
+              }
             }
           }
           return out;
@@ -1097,6 +1113,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
         function stop() {
           listen.session++;
           listen.running = false; listen.queue = []; listen.idx = 0; listen.auto = false; listen.utter = null;
+          clearNudge();
           try { window.speechSynthesis.cancel(); } catch (e) {}
           setBtn(false);
         }
@@ -1139,7 +1156,8 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
             const v = voices[i];
             const n = (v.name || "") + " " + (v.localName || "");
             if (!/^zh/i.test(v.lang || "")) continue;
-            let s = /^zh[-_]?[CcN][Nn]?/i.test(v.lang) ? 2 : 1;
+            let s = /^zh[-_]?[CcN][Nn]?/i.test(v.lang) ? 3 : 2;
+            if (v.localService) s += 1;
             if (FEMALE.test(n) && !MALE.test(n)) s += 2;
             if (s > bestScore) { best = v; bestScore = s; }
           }
@@ -1183,6 +1201,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           listen.utter = u;
           u.onend = function () {
             if (!listen.running) return;
+            clearNudge();
             listen.idx++;
             if (listen.idx < listen.queue.length) {
               const target = listen.queue[listen.idx].page;
@@ -1190,7 +1209,8 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
             }
             readNext();
           };
-          u.onerror = function () { stop(); };
+          u.onerror = function () { clearNudge(); stop(); };
+          startNudge();
           try { ss.speak(u); } catch (e) { stop(); }
         }
         flip.on("flip", function () {
@@ -1210,6 +1230,38 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
             u.volume = 0;
             ss.speak(u); ss.cancel();
           } catch (e3) {}
+        }
+        var _voiceCache = [];
+        function loadVoices() {
+          try { _voiceCache = (window.speechSynthesis && window.speechSynthesis.getVoices()) || []; } catch (e) { _voiceCache = []; }
+          return _voiceCache;
+        }
+        function ensureVoices(cb) {
+          if (typeof window.speechSynthesis === "undefined") { cb(); return; }
+          loadVoices();
+          if (_voiceCache.length) { cb(); return; }
+          var done = false;
+          var finish = function () {
+            if (done) return; done = true;
+            loadVoices();
+            try { window.speechSynthesis.onvoiceschanged = null; } catch (e) {}
+            cb();
+          };
+          try { window.speechSynthesis.onvoiceschanged = finish; } catch (e) {}
+          try { window.speechSynthesis.addEventListener("voiceschanged", finish); } catch (e) {}
+          setTimeout(finish, 1500);
+        }
+        function startNudge() {
+          clearNudge();
+          listen.nudge = setInterval(function () {
+            try {
+              var ss = window.speechSynthesis;
+              if (listen.running && ss && ss.speaking) { ss.resume(); }
+            } catch (e) {}
+          }, 8000);
+        }
+        function clearNudge() {
+          if (listen.nudge) { clearInterval(listen.nudge); listen.nudge = null; }
         }
         function pickVoice(voices) {
           if (!voices.length) return null;
@@ -1312,7 +1364,7 @@ window.PHONE_DAY_INDEX = {1:1,2:5,3:9,4:14,5:19,6:23,7:28,8:35,9:41,10:46,11:50,
           warmVoice();
           listen.session++;
           listen.waitCount = 0;
-          startReading();
+          ensureVoices(function () { startReading(); });
         };
       }
 
