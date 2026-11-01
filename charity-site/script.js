@@ -17,7 +17,7 @@
   if (document.querySelector(".wa-fab")) return;
   const fab = document.createElement("a");
   fab.className = "wa-fab";
-  fab.href = "https://wa.me/6582683372";
+  fab.href = "https://wa.me/6591014472";
   fab.target = "_blank";
   fab.rel = "noopener";
   fab.setAttribute("aria-label", "Chat on WhatsApp");
